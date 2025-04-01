@@ -1,0 +1,117 @@
+.movie-details-container {
+    max-width: 1200px; /* Wider for desktops */
+    margin: auto;
+    padding: 40px;
+    text-align: center;
+  }
+  
+  .movie-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+  
+  .movie-header img {
+    width: 300px; /* Slightly larger poster */
+    height: auto;
+    border-radius: 10px;
+  }
+  
+  .movie-info {
+    flex: 1;
+    text-align: left;
+    max-width: 700px; /* Ensuring content doesn't get too narrow */
+  }
+  
+  .movie-info h1 {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  
+  .movie-info p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #444;
+  }
+  
+  /* Sliders */
+  .slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .movies-wrapper, .cast-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+  
+  .slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 28px;
+    z-index: 100;
+  }
+  
+  .left {
+    left: -10px;
+  }
+  
+  .right {
+    right: -10px;
+  }
+  
+  /* Cast and Movie Cards */
+  .cast-card, .movie-card {
+    min-width: 180px;
+    text-align: center;
+  }
+  
+  .cast-card img, .movie-card img {
+    width: 100%;
+    border-radius: 8px;
+  }
+  .reviews-container {
+    max-width: 800px;
+    margin: 20px auto;
+    text-align: left;
+  }
+  
+  .review-card {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .review-card strong {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .review-card p {
+    font-size: 14px;
+    color: #444;
+  }
+  
+  button {
+    background: #ff3d00;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
