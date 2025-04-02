@@ -33,14 +33,25 @@ mongoose.connect(MONGO_URI, {
 });
 
 // API Routes with Logging
-console.log("🔄 Loading API routes...");
+console.log("✅ Before loading auth route");
 app.use("/api/auth", require("./routes/auth"));
+console.log("✅ Auth route loaded");
+
+console.log("✅ Before loading events route");
 app.use("/api/events", require("./routes/events"));
+console.log("✅ Events route loaded");
+
+console.log("✅ Before loading bookings route");
 app.use("/api/bookings", require("./routes/bookings"));
+console.log("✅ Bookings route loaded");
 
-app.use("/api/payment", require("./routes/payment")); // Remove try-catch block
-
-console.log("✅ All routes loaded successfully");
+console.log("✅ Before loading payment route");
+try {
+    app.use("/api/payment", require("./routes/payment"));
+    console.log("✅ Payment route loaded successfully");
+} catch (error) {
+    console.error("❌ Failed to load payment route:", error);
+}
 
 // Health Check Route
 app.get("/", (req, res) => {
