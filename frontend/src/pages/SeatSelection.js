@@ -6,7 +6,6 @@ const SeatSelection = () => {
   const [bookedSeats, setBookedSeats] = useState(["A3", "A6", "B4", "C2", "C8"]);
   const ticketPrice = 150;
 
-  // Deployed Backend API (Replace with your actual Render URL)
   const BACKEND_URL = "https://bookmyshow-dupe.onrender.com"; 
 
   const seatsLayout = [
@@ -30,16 +29,13 @@ const SeatSelection = () => {
     const totalAmount = selectedSeats.length * ticketPrice;
 
     try {
-      // Call backend API to create an order
-      const response = await fetch(`${BACKEND_URL}/api/razorpay`, {
+      const response = await fetch(`${BACKEND_URL}/api/payment/razorpay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: totalAmount }),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to create order. Please try again.");
-      }
+      if (!response.ok) throw new Error("Failed to create order. Please try again.");
 
       const orderData = await response.json();
 
@@ -48,33 +44,29 @@ const SeatSelection = () => {
         return;
       }
 
-      // Initialize Razorpay payment
       const options = {
-        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Use env variable for security
-        amount: totalAmount * 100, // Convert to paise
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID, 
+        amount: totalAmount * 100, 
         currency: "INR",
         name: "Movie Ticket Booking",
         description: `Seats: ${selectedSeats.join(", ")}`,
         order_id: orderData.id,
         handler: function (response) {
           alert(
-            `payment successful!\npayment ID: ${response.razorpay_payment_id}\nSelected Seats: ${selectedSeats.join(", ")}`
+            `Payment Successful!\nPayment ID: ${response.razorpay_payment_id}\nSelected Seats: ${selectedSeats.join(", ")}`
           );
 
-          // Update booked seats on successful payment
           setBookedSeats((prevBookedSeats) => [...prevBookedSeats, ...selectedSeats]);
           setSelectedSeats([]);
         },
-        theme: {
-          color: "#3399cc",
-        },
+        theme: { color: "#3399cc" },
       };
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      console.error("payment Error:", error);
-      alert(error.message || "payment failed. Please try again.");
+      console.error("Payment Error:", error);
+      alert(error.message || "Payment failed. Please try again.");
     }
   };
 
@@ -117,15 +109,12 @@ const SeatSelection = () => {
         <p>Total Price: ₹{selectedSeats.length * ticketPrice}</p>
       </div>
 
-      <button
-        className="proceed-btn"
-        onClick={handlepayment}
-        disabled={selectedSeats.length === 0}
-      >
-        Proceed to payment (₹{selectedSeats.length * ticketPrice})
+      <button className="proceed-btn" onClick={handlepayment} disabled={selectedSeats.length === 0}>
+        Proceed to Payment (₹{selectedSeats.length * ticketPrice})
       </button>
     </div>
   );
 };
 
 export default SeatSelection;
+
