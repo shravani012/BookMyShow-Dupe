@@ -38,12 +38,9 @@ app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
 
-try {
-    app.use("/api/payment", require("./routes/payment"));
-    console.log("✅ Payment route loaded successfully");
-} catch (error) {
-    console.error("❌ Failed to load payment route:", error);
-}
+app.use("/api/payment", require("./routes/payment")); // Remove try-catch block
+
+console.log("✅ All routes loaded successfully");
 
 // Health Check Route
 app.get("/", (req, res) => {
