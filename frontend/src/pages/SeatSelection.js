@@ -3,9 +3,8 @@ import "./SeatSelection.css";
 
 const SeatSelection = () => {
   const [selectedSeats, setSelectedSeats] = useState([]);
+  const [bookedSeats, setBookedSeats] = useState(["A3", "A6", "B4", "C2", "C8"]);
   const ticketPrice = 150;
-
-  const bookedSeats = ["A3", "A6", "B4", "C2", "C8"];
 
   const seatsLayout = [
     ["A1", "A2", " ", "A3", "A4", "A5", "A6", "A7", " ", "A8", "A9", "A10"],
@@ -15,29 +14,67 @@ const SeatSelection = () => {
 
   const handleSeatClick = (seat) => {
     if (bookedSeats.includes(seat)) return;
-    if (selectedSeats.includes(seat)) {
-      setSelectedSeats(selectedSeats.filter((s) => s !== seat));
-    } else {
-      setSelectedSeats([...selectedSeats, seat]);
-    }
+    setSelectedSeats((prevSelectedSeats) =>
+      prevSelectedSeats.includes(seat)
+        ? prevSelectedSeats.filter((s) => s !== seat)
+        : [...prevSelectedSeats, seat]
+    );
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (selectedSeats.length === 0) return;
+    
+    const totalAmount = selectedSeats.length * ticketPrice;
 
-    alert(
-      `Payment completed.\nSelected seats: ${selectedSeats.join(", ")}\nTickets will be sent to your registered Gmail.`
-    );
+    try {
+      // Call backend API to create an order
+      const response = await fetch("http://localhost:5000/api/razorpay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: totalAmount }),
+      });
 
-    // Simulate booking by adding selected seats to bookedSeats
-    bookedSeats.push(...selectedSeats);
-    setSelectedSeats([]); // Clear selected seats
+      const orderData = await response.json();
+
+      if (!orderData.id) {
+        alert("Failed to initiate payment. Please try again.");
+        return;
+      }
+
+      // Initialize Razorpay Payment
+      const options = {
+        key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay Key ID
+        amount: totalAmount * 100, // Convert to paise
+        currency: "INR",
+        name: "Movie Ticket Booking",
+        description: `Seats: ${selectedSeats.join(", ")}`,
+        order_id: orderData.id,
+        handler: function (response) {
+          alert(
+            `Payment successful!\nPayment ID: ${response.razorpay_payment_id}\nSelected Seats: ${selectedSeats.join(", ")}`
+          );
+
+          // Update booked seats on successful payment
+          setBookedSeats((prevBookedSeats) => [...prevBookedSeats, ...selectedSeats]);
+          setSelectedSeats([]);
+        },
+        theme: {
+          color: "#3399cc",
+        },
+      };
+
+      const razorpay = new window.Razorpay(options);
+      razorpay.open();
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Payment failed. Please try again.");
+    }
   };
 
   return (
     <div className="seat-selection-container">
       <h2>Select Your Seats</h2>
-      <div className="screen">📽️ SCREEN</div>
+      <div className="screen">📽 SCREEN</div>
 
       <div className="seats-grid">
         {seatsLayout.map((row, rowIndex) => (
@@ -68,8 +105,7 @@ const SeatSelection = () => {
       <div className="price-details">
         <p>Price per seat: ₹{ticketPrice}</p>
         <p>
-          Selected Seats: {selectedSeats.length}{" "}
-          {selectedSeats.length > 0 ? `(${selectedSeats.join(", ")})` : ""}
+          Selected Seats: {selectedSeats.length > 0 ? `${selectedSeats.length} (${selectedSeats.join(", ")})` : "None"}
         </p>
         <p>Total Price: ₹{selectedSeats.length * ticketPrice}</p>
       </div>
@@ -86,4 +122,3 @@ const SeatSelection = () => {
 };
 
 export default SeatSelection;
-
