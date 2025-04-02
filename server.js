@@ -13,10 +13,15 @@ const MONGO_URI = process.env.MONGO_URI;
 
 // Middleware
 app.use(express.json()); // Parse JSON bodies
-app.use(cors({ origin: process.env.FRONTEND_URL || "*" })); // Allow frontend requests
+app.use(cors({ origin:"*" })); // Allow frontend requests
 app.use(morgan("dev"));
 
 // Database Connection
+if (!MONGO_URI) {
+    console.error("❌ MongoDB URI is missing. Check your .env file.");
+    process.exit(1);
+}
+
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -27,11 +32,18 @@ mongoose.connect(MONGO_URI, {
     process.exit(1);
 });
 
-// API Routes
+// API Routes with Logging
+console.log("🔄 Loading API routes...");
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
-app.use("/api/payment", require("./routes/payment"));
+
+try {
+    app.use("/api/payment", require("./routes/payment"));
+    console.log("✅ Payment route loaded successfully");
+} catch (error) {
+    console.error("❌ Failed to load payment route:", error);
+}
 
 // Health Check Route
 app.get("/", (req, res) => {
@@ -40,7 +52,7 @@ app.get("/", (req, res) => {
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error("❌ Server Error:", err.stack);
     res.status(500).json({ message: "Something went wrong!" });
 });
 
