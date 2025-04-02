@@ -6,6 +6,9 @@ const SeatSelection = () => {
   const [bookedSeats, setBookedSeats] = useState(["A3", "A6", "B4", "C2", "C8"]);
   const ticketPrice = 150;
 
+  // Deployed Backend API (Replace with your actual Render URL)
+  const BACKEND_URL = "https://bookmyshow-dupe.onrender.com"; 
+
   const seatsLayout = [
     ["A1", "A2", " ", "A3", "A4", "A5", "A6", "A7", " ", "A8", "A9", "A10"],
     ["B1", "B2", " ", "B3", "B4", "B5", "B6", "B7", " ", "B8", "B9", "B10"],
@@ -23,16 +26,20 @@ const SeatSelection = () => {
 
   const handlePayment = async () => {
     if (selectedSeats.length === 0) return;
-    
+
     const totalAmount = selectedSeats.length * ticketPrice;
 
     try {
       // Call backend API to create an order
-      const response = await fetch("http://localhost:5000/api/razorpay", {
+      const response = await fetch(`${BACKEND_URL}/api/razorpay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: totalAmount }),
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to create order. Please try again.");
+      }
 
       const orderData = await response.json();
 
@@ -43,7 +50,7 @@ const SeatSelection = () => {
 
       // Initialize Razorpay Payment
       const options = {
-        key: "YOUR_RAZORPAY_KEY_ID", // Replace with your actual Razorpay Key ID
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Use env variable for security
         amount: totalAmount * 100, // Convert to paise
         currency: "INR",
         name: "Movie Ticket Booking",
@@ -67,7 +74,7 @@ const SeatSelection = () => {
       razorpay.open();
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Payment failed. Please try again.");
+      alert(error.message || "Payment failed. Please try again.");
     }
   };
 
