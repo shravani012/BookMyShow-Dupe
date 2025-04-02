@@ -48,7 +48,7 @@ const SeatSelection = () => {
         return;
       }
 
-      // Initialize Razorpay Payment
+      // Initialize Razorpay payment
       const options = {
         key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Use env variable for security
         amount: totalAmount * 100, // Convert to paise
@@ -58,7 +58,7 @@ const SeatSelection = () => {
         order_id: orderData.id,
         handler: function (response) {
           alert(
-            `Payment successful!\nPayment ID: ${response.razorpay_payment_id}\nSelected Seats: ${selectedSeats.join(", ")}`
+            `payment successful!\npayment ID: ${response.razorpay_payment_id}\nSelected Seats: ${selectedSeats.join(", ")}`
           );
 
           // Update booked seats on successful payment
@@ -73,8 +73,8 @@ const SeatSelection = () => {
       const razorpay = new window.Razorpay(options);
       razorpay.open();
     } catch (error) {
-      console.error("Payment Error:", error);
-      alert(error.message || "Payment failed. Please try again.");
+      console.error("payment Error:", error);
+      alert(error.message || "payment failed. Please try again.");
     }
   };
 
@@ -122,7 +122,7 @@ const SeatSelection = () => {
         onClick={handlepayment}
         disabled={selectedSeats.length === 0}
       >
-        Proceed to Payment (₹{selectedSeats.length * ticketPrice})
+        Proceed to payment (₹{selectedSeats.length * ticketPrice})
       </button>
     </div>
   );

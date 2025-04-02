@@ -10,17 +10,17 @@ const payment = () => {
       });
 
       const data = await response.json();
-      console.log("Payment Success:", data);
-      alert("Payment Successful!");
+      console.log("payment Success:", data);
+      alert("payment Successful!");
     } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Payment Failed!");
+      console.error("payment Error:", error);
+      alert("payment Failed!");
     }
   };
 
   return (
     <div>
-      <h2>Make a Payment</h2>
+      <h2>Make a payment</h2>
       <button onClick={handlepayment}>Pay Now</button>
     </div>
   );

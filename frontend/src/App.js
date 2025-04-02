@@ -6,7 +6,7 @@ import BookingPage from "./pages/BookingPage"; // Booking page
 import SeatSelection from "./pages/SeatSelection"; // Seat selection page
 import Events from "./pages/Events"; // Events page
 import EventDetails from "./pages/EventDetails"; // ✅ Import Event Details Page
-import Payment from "./components/Payment";
+import payment from "./components/payment";
 import AppNavbar from "./components/Navbar"; // Navbar
 import LoginModal from "./components/LoginModal"; // Login modal
 
@@ -22,7 +22,7 @@ function App() {
           <Route path="/book/:id" element={<SeatSelection />} />
           <Route path="/events" element={<Events />} />
           <Route path="/event/:id" element={<EventDetails />} /> 
-          <Route path="/payment" element={<Payment />} />
+          <Route path="/payment" element={<payment />} />
         </Routes>
       </div>
       <LoginModal />
