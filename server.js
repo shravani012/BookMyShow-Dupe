@@ -31,7 +31,7 @@ mongoose.connect(MONGO_URI, {
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
-app.use("/api/payment", require("./routes/payment")); // Ensure the correct file name
+app.use("/api/payment", require("./routes/payment"));
 
 // Health Check Route
 app.get("/", (req, res) => {

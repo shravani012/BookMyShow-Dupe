@@ -1,9 +1,9 @@
 import React from "react";
 
-const Payment = () => {
-  const handlePayment = async () => {
+const payment = () => {
+  const handlepayment = async () => {
     try {
-      const response = await fetch("/api/payments", { 
+      const response = await fetch("/api/payment", { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ amount: 150 })  // Replace with actual amount
@@ -21,9 +21,9 @@ const Payment = () => {
   return (
     <div>
       <h2>Make a Payment</h2>
-      <button onClick={handlePayment}>Pay Now</button>
+      <button onClick={handlepayment}>Pay Now</button>
     </div>
   );
 };
 
-export default Payment;
+export default payment;

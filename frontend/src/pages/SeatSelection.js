@@ -24,7 +24,7 @@ const SeatSelection = () => {
     );
   };
 
-  const handlePayment = async () => {
+  const handlepayment = async () => {
     if (selectedSeats.length === 0) return;
 
     const totalAmount = selectedSeats.length * ticketPrice;
@@ -119,7 +119,7 @@ const SeatSelection = () => {
 
       <button
         className="proceed-btn"
-        onClick={handlePayment}
+        onClick={handlepayment}
         disabled={selectedSeats.length === 0}
       >
         Proceed to Payment (₹{selectedSeats.length * ticketPrice})
