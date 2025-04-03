@@ -9,15 +9,24 @@ const PayPalButton = ({ totalAmount }) => {
   }, []);
 
   const handlePayment = async () => {
-    const response = await fetch("https://your-backend-service.onrender.com/api/payment/paypal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ amount: totalAmount }),
-    });
-
-    const { approvalUrl } = await response.json();
-    window.location.href = approvalUrl;
-  };
+    try {
+      const response = await fetch("https://your-backend-service.onrender.com/api/payment/paypal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: 150, currency: "INR" }),
+      });
+  
+      const data = await response.json();
+      if (data.success) {
+        alert("Payment Successful!");
+      } else {
+        alert("Payment Failed: " + data.message);
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Payment request failed.");
+    }
+  };  
 
   return (
     <button className="proceed-btn" onClick={handlePayment}>
