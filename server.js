@@ -9,34 +9,32 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// Middleware
 app.use(express.json());
 app.use(cors({ origin: "*" }));
 app.use(morgan("dev"));
 
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
-.then(() => console.log("✅ MongoDB connected"))
-.catch(err => {
+// 🔄 Connect to MongoDB
+mongoose
+  .connect(MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
-    process.exit(1);
-});
+  });
 
+// 🔄 Load API Routes
 console.log("🔄 Loading API routes...");
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
+app.use("/api/payment", require("./routes/payment")); // No need for try-catch
 
-try {
-    app.use("/api/payment", require("./routes/payment"));
-    console.log("✅ PayPal payment route loaded successfully");
-} catch (error) {
-    console.error("❌ Failed to load payment route:", error);
-}
+console.log("✅ All routes loaded successfully");
 
+// Test Route
 app.get("/", (req, res) => {
-    res.send("🎉 API is running successfully!");
+  res.send("🎉 API is running successfully!");
 });
 
+// Start Server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
