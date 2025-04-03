@@ -35,11 +35,11 @@ function AppNavbar() {
               <Dropdown.Item onClick={() => setLocation("Mumbai")}>Mumbai</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Delhi")}>Delhi</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Bangalore")}>Bangalore</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Hyderabad")}>Hyderbad</Dropdown.Item>
+              <Dropdown.Item onClick={() => setLocation("Hyderabad")}>Hyderabad</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Chennai")}>Chennai</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Pune")}>Pune</Dropdown.Item>    
               <Dropdown.Item onClick={() => setLocation("Kolkata")}>Kolkata</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Ahemdabad")}>Ahemdabad</Dropdown.Item>
+              <Dropdown.Item onClick={() => setLocation("Ahmedabad")}>Ahmedabad</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Chandigarh")}>Chandigarh</Dropdown.Item>   
               <Dropdown.Item onClick={() => setLocation("Lucknow")}>Lucknow</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Jaipur")}>Jaipur</Dropdown.Item>
@@ -58,10 +58,10 @@ function AppNavbar() {
       {/* Second Row: Category Navigation */}
       <Navbar bg="secondary" variant="dark" className="bottom-navbar">
         <div className="container">
-        <Nav className="mx-auto">
-        <Nav.Link as={Link} to="/" onClick={() => window.location.href = "/"}>Movies</Nav.Link>
-        <Nav.Link as={Link} to="/events" onClick={() => window.location.href = "/events"}>Events</Nav.Link>
-        </Nav>
+          <Nav className="mx-auto">
+            <Nav.Link as={Link} to="/movies">Movies</Nav.Link> {/* ✅ Now links to MoviesPage.js */}
+            <Nav.Link as={Link} to="/events">Events</Nav.Link> {/* ✅ Events Page remains the same */}
+          </Nav>
         </div>
       </Navbar>
 
