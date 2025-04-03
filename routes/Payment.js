@@ -1,47 +1,31 @@
 const express = require("express");
-const Razorpay = require("razorpay");
+const paypal = require("@paypal/checkout-server-sdk");
+const dotenv = require("dotenv");
+
+dotenv.config();
 const router = express.Router();
-require("dotenv").config(); // Ensure your .env file is loaded
 
-// Check if API keys are defined
-if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-    console.error("❌ Razorpay API keys missing. Check your .env file.");
-    process.exit(1); // Exit process if keys are missing
-}
+const clientId = process.env.PAYPAL_CLIENT_ID;
+const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 
-// Initialize Razorpay instance
-const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET,
-});
+const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
+const client = new paypal.core.PayPalHttpClient(environment);
 
-// Create an order
-router.post("/razorpay", async (req, res) => {
-    try {
-        const { amount } = req.body;
-        
-        // Validate amount
-        if (!amount || isNaN(amount)) {
-            return res.status(400).json({ message: "Invalid amount" });
-        }
+router.post("/paypal", async (req, res) => {
+  const { amount } = req.body;
 
-        const options = {
-            amount: amount * 100, // Convert to paise
-            currency: "INR",
-            receipt: `receipt_${Date.now()}`,
-        };
+  const request = new paypal.orders.OrdersCreateRequest();
+  request.requestBody({
+    intent: "CAPTURE",
+    purchase_units: [{ amount: { currency_code: "INR", value: amount.toString() } }],
+  });
 
-        const order = await razorpay.orders.create(options);
-        res.json(order);
-    } catch (error) {
-        console.error("❌ Razorpay Error:", error);
-        res.status(500).json({ message: "Failed to create order", error: error.message });
-    }
-});
-
-// Test Route
-router.get("/", (req, res) => {
-    res.send("✅ Payment API is working!");
+  try {
+    const order = await client.execute(request);
+    res.json({ approvalUrl: order.result.links.find(link => link.rel === "approve").href });
+  } catch (error) {
+    res.status(500).json({ message: "PayPal payment failed", error });
+  }
 });
 
 module.exports = router;
