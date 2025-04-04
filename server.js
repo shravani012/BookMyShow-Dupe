@@ -39,7 +39,7 @@ app.use(morgan("dev"));
 
 // 🔄 Connect to MongoDB
 mongoose
-  .connect(MONGO_URI)
+  .connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
@@ -51,6 +51,16 @@ app.use("/api/bookings", require("./routes/bookings"));
 app.use("/api/payment", require("./routes/paymentroutes")); // ✅ Fixed
 
 console.log("✅ All routes loaded successfully");
+
+// ✅ Default Route to Fix 404 on Render
+app.get("/", (req, res) => {
+  res.send("🚀 Server is running! Use /api for API routes.");
+});
+
+// ✅ Handle 404 for Undefined Routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
 
 // Start Server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

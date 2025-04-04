@@ -12,9 +12,9 @@ const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(environment);
 
-// ✅ Add a GET route to verify the API is working
+// ✅ Added GET Route for Testing
 router.get("/", (req, res) => {
-  res.send("Payment API is working!");
+  res.send("✅ Payment API is working!");
 });
 
 // 🟢 1️⃣ Create PayPal Order
@@ -39,7 +39,7 @@ router.post("/create-order", async (req, res) => {
     const order = await client.execute(request);
     res.json({ orderId: order.result.id });
   } catch (error) {
-    console.error("PayPal Order Creation Error:", error);
+    console.error("❌ PayPal Order Creation Error:", error);
     res.status(500).json({ message: "PayPal payment failed", error });
   }
 });
@@ -53,9 +53,9 @@ router.post("/capture-order", async (req, res) => {
 
   try {
     const capture = await client.execute(request);
-    res.json({ message: "Payment successful", details: capture.result });
+    res.json({ message: "✅ Payment successful", details: capture.result });
   } catch (error) {
-    console.error("PayPal Capture Error:", error);
+    console.error("❌ PayPal Capture Error:", error);
     res.status(500).json({ message: "Payment capture failed", error });
   }
 });
