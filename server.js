@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const cors = require("cors");
 const morgan = require("morgan");
 
 dotenv.config();
@@ -12,12 +11,13 @@ const MONGO_URI = process.env.MONGO_URI;
 // Middleware
 app.use(express.json());
 
-// ✅ Improved CORS Configuration
+const cors = require("cors");
+
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://book-my-show-dupe-git-main-shravani-joshis-projects.vercel.app/",
-  "https://book-my-show-dupe-212qc6v6i-shravani-joshis-projects.vercel.app/",
   "https://book-my-show-dupe.vercel.app/",
+  "https://book-my-show-dupe-git-main-shravani-joshis-projects.vercel.app/",
+  "https://book-my-show-dupe-mfynpnlgv-shravani-joshis-projects.vercel.app/" // Add your Vercel frontend URL
 ];
 
 app.use(
@@ -30,8 +30,6 @@ app.use(
       }
     },
     credentials: true,
-    methods: "GET,POST,PUT,DELETE,OPTIONS",
-    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
