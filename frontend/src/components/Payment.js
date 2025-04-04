@@ -1,33 +1,35 @@
-import React, { useState } from "react";
+export const createOrder = async (amount) => {
+  try {
+    const response = await fetch("https://bookmyshow-dupe.onrender.com/api/payment/create-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ amount }),
+    });
 
-const Payment = ({ totalAmount }) => {
-  const [orderId, setOrderId] = useState(null);
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to create order");
 
-  const handlePayment = async () => {
-    try {
-      const response = await fetch("/api/payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: totalAmount }),
-      });
-
-      const data = await response.json();
-      setOrderId(data.id); // PayPal order ID
-      alert("Redirecting to PayPal...");
-      window.location.href = `https://www.paypal.com/checkoutnow?token=${data.id}`;
-    } catch (error) {
-      console.error("Payment Error:", error);
-      alert("Payment Failed!");
-    }
-  };
-
-  return (
-    <div>
-      <h2>Make a Payment</h2>
-      <p>Total Amount: ${totalAmount}</p>
-      <button onClick={handlePayment}>Pay with PayPal</button>
-    </div>
-  );
+    return data.orderId;
+  } catch (error) {
+    console.error("🚨 Payment Order Error:", error.message);
+    return null;
+  }
 };
 
-export default Payment;
+export const captureOrder = async (orderId) => {
+  try {
+    const response = await fetch("https://bookmyshow-dupe.onrender.com/api/payment/capture-order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message || "Failed to capture payment");
+
+    return data;
+  } catch (error) {
+    console.error("🚨 Payment Capture Error:", error.message);
+    return null;
+  }
+};
