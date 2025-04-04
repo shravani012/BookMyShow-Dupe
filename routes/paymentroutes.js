@@ -12,6 +12,11 @@ const clientSecret = process.env.PAYPAL_CLIENT_SECRET;
 const environment = new paypal.core.SandboxEnvironment(clientId, clientSecret);
 const client = new paypal.core.PayPalHttpClient(environment);
 
+// ✅ Add a GET route to verify the API is working
+router.get("/", (req, res) => {
+  res.send("Payment API is working!");
+});
+
 // 🟢 1️⃣ Create PayPal Order
 router.post("/create-order", async (req, res) => {
   const { amount } = req.body;

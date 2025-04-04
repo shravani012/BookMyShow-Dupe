@@ -14,7 +14,7 @@ app.use(express.json());
 
 // ✅ Improved CORS Configuration
 const allowedOrigins = [
-  "http://localhost:3000", // Change this to match your frontend URL
+  "http://localhost:3000",
   "https://book-my-show-dupe-git-main-shravani-joshis-projects.vercel.app/",
   "https://book-my-show-dupe-212qc6v6i-shravani-joshis-projects.vercel.app/",
   "https://book-my-show-dupe.vercel.app/",
@@ -29,9 +29,9 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true, // Allow credentials (cookies, authorization headers)
-    methods: "GET,POST,PUT,DELETE,OPTIONS", // Allowed HTTP methods
-    allowedHeaders: "Content-Type,Authorization", // Allowed headers
+    credentials: true,
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
   })
 );
 
@@ -48,14 +48,9 @@ console.log("🔄 Loading API routes...");
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
-app.use("/api/payment", require("./routes/paymentroutes"));
+app.use("/api/payment", require("./routes/payment")); // ✅ Fixed
 
 console.log("✅ All routes loaded successfully");
-
-// Test Route
-app.get("/api/payment", (req, res) => {
-  res.send("Payment API working!");
-});
 
 // Start Server
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
