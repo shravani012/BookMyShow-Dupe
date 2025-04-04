@@ -53,8 +53,8 @@ app.use("/api/payment", require("./routes/paymentroutes"));
 console.log("✅ All routes loaded successfully");
 
 // Test Route
-app.get("/", (req, res) => {
-  res.send("🎉 API is running successfully!");
+app.get("/api/payment", (req, res) => {
+  res.send("Payment API working!");
 });
 
 // Start Server

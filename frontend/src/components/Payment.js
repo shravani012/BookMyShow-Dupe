@@ -1,29 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 
-const payment = () => {
-  const handlepayment = async () => {
+const Payment = ({ totalAmount }) => {
+  const [orderId, setOrderId] = useState(null);
+
+  const handlePayment = async () => {
     try {
-      const response = await fetch("/api/payment", { 
+      const response = await fetch("/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: 150 })  // Replace with actual amount
+        body: JSON.stringify({ amount: totalAmount }),
       });
 
       const data = await response.json();
-      console.log("payment Success:", data);
-      alert("payment Successful!");
+      setOrderId(data.id); // PayPal order ID
+      alert("Redirecting to PayPal...");
+      window.location.href = `https://www.paypal.com/checkoutnow?token=${data.id}`;
     } catch (error) {
-      console.error("payment Error:", error);
-      alert("payment Failed!");
+      console.error("Payment Error:", error);
+      alert("Payment Failed!");
     }
   };
 
   return (
     <div>
-      <h2>Make a payment</h2>
-      <button onClick={handlepayment}>Pay Now</button>
+      <h2>Make a Payment</h2>
+      <p>Total Amount: ${totalAmount}</p>
+      <button onClick={handlePayment}>Pay with PayPal</button>
     </div>
   );
 };
 
-export default payment;
+export default Payment;
