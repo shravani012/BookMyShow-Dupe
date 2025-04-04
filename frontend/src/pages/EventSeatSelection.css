@@ -1,0 +1,82 @@
+.event-seat-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .podium {
+    background-color: #444;
+    color: #fff;
+    text-align: center;
+    padding: 8px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+  
+  .seat-section {
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .seat-row {
+    display: flex;
+    justify-content: center;
+    margin: 6px 0;
+  }
+  
+  .seat {
+    width: 24px;
+    height: 24px;
+    margin: 4px;
+    border-radius: 4px;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .seat:hover {
+    background-color: #ccc;
+  }
+  
+  .seat.selected {
+    background-color: #28a745;
+  }
+  
+  .seat.booked {
+    background-color: #dc3545;
+    cursor: not-allowed;
+  }
+  
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .legend .seat {
+    display: inline-block;
+    margin-right: 8px;
+  }
+  
+  .summary {
+    max-width: 300px;
+    margin: 30px auto 0;
+    background-color: #f8f9fa;
+    padding: 16px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .summary p {
+    margin: 6px 0;
+  }
+  
+  .summary button {
+    margin-top: 10px;
+    width: 100%;
+  }
+  

@@ -37,10 +37,10 @@ function AppNavbar() {
               <Dropdown.Item onClick={() => setLocation("Bangalore")}>Bangalore</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Hyderabad")}>Hyderabad</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Chennai")}>Chennai</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Pune")}>Pune</Dropdown.Item>    
+              <Dropdown.Item onClick={() => setLocation("Pune")}>Pune</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Kolkata")}>Kolkata</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Ahmedabad")}>Ahmedabad</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Chandigarh")}>Chandigarh</Dropdown.Item>   
+              <Dropdown.Item onClick={() => setLocation("Chandigarh")}>Chandigarh</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Lucknow")}>Lucknow</Dropdown.Item>
               <Dropdown.Item onClick={() => setLocation("Jaipur")}>Jaipur</Dropdown.Item>
             </Dropdown.Menu>
@@ -59,8 +59,17 @@ function AppNavbar() {
       <Navbar bg="secondary" variant="dark" className="bottom-navbar">
         <div className="container">
           <Nav className="mx-auto">
-            <Nav.Link as={Link} to="/movies">Movies</Nav.Link> {/* ✅ Now links to MoviesPage.js */}
-            <Nav.Link as={Link} to="/events">Events</Nav.Link> {/* ✅ Events Page remains the same */}
+            <Nav.Link as={Link} to="/movies">Movies</Nav.Link>
+            <Nav.Link as={Link} to="/events">Events</Nav.Link>
+
+            {/* Corrected Category Links */}
+            <Nav.Link as={Link} to="/events/concert">Music</Nav.Link>
+            <Nav.Link as={Link} to="/events/comedy">Comedy</Nav.Link>
+            <Nav.Link as={Link} to="/events/theatre">Theatre</Nav.Link>
+            <Nav.Link as={Link} to="/events/food">Food</Nav.Link>
+            <Nav.Link as={Link} to="/events/art">Art</Nav.Link>
+            <Nav.Link as={Link} to="/events/tech">Tech</Nav.Link>
+            <Nav.Link as={Link} to="/events/fitness">Fitness</Nav.Link>
           </Nav>
         </div>
       </Navbar>

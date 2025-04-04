@@ -1,0 +1,47 @@
+/* Container to ensure proper wrapping */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  
+  /* Ensures all columns are equal height */
+  .col-md-4 {
+    display: flex;
+    align-items: stretch;
+  }
+  
+  /* Main card styling */
+  .card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  /* Fix all images to be the same size */
+  .card-img-top {
+    width: 100%;
+    height: 200px;  /* Ensures consistent image height */
+    object-fit: cover;  /* Crops images to fit without distortion */
+  }
+  
+  /* Keep the card body aligned */
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+  
+  /* Ensure buttons align properly */
+  .card-body .btn {
+    margin-top: auto;
+    align-self: center;
+    width: 80%;
+  }
+  
