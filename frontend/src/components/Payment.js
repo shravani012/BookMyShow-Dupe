@@ -1,9 +1,10 @@
 export const createOrder = async (amount) => {
   try {
-    const response = await fetch("https://bookmyshow-dupe.onrender.com/api/payment/create-order", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ amount }),
+      credentials: "include", // Ensures cookies/session are included
     });
 
     const data = await response.json();
@@ -18,10 +19,11 @@ export const createOrder = async (amount) => {
 
 export const captureOrder = async (orderId) => {
   try {
-    const response = await fetch("https://bookmyshow-dupe.onrender.com/api/payment/capture-order", {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/capture-order`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ orderId }),
+      credentials: "include", // Ensures cookies/session are included
     });
 
     const data = await response.json();
