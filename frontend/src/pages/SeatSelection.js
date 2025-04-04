@@ -76,7 +76,9 @@ const SeatSelection = () => {
       </div>
 
       {/* PayPal Button */}
-      {selectedSeats.length > 0 && <PayPalButton totalAmount={selectedSeats.length * ticketPrice} />}
+{selectedSeats.length > 0 && (
+  <PayPalButton totalAmount={selectedSeats.length * ticketPrice} />
+)}
     </div>
   );
 };
