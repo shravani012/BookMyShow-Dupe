@@ -48,7 +48,7 @@ console.log("🔄 Loading API routes...");
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/events", require("./routes/events"));
 app.use("/api/bookings", require("./routes/bookings"));
-app.use("/api/payment", require("./routes/payment")); // ✅ Fixed
+app.use("/api/payment", require("./routes/paymentroutes")); // ✅ Fixed
 
 console.log("✅ All routes loaded successfully");
 
