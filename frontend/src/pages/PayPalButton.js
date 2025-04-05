@@ -10,6 +10,7 @@ const PayPalButton = ({ totalAmount }) => {
         const script = document.createElement("script");
         script.id = "paypal-sdk";
         script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
+        console.log("PayPal Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
         script.async = true;
         script.onload = renderPayPalButtons;
         document.body.appendChild(script);
