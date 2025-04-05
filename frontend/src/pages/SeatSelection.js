@@ -8,26 +8,21 @@ const SeatSelection = () => {
   const ticketPrice = 150;
 
   useEffect(() => {
-    // Generate seat IDs
     const allSeats = "ABCDE".split("").flatMap((row) =>
       Array.from({ length: 12 }, (_, i) => `${row}${i + 1}`)
     );
-
-    // Randomly book 10 seats
     const randomBookedSeats = [...allSeats]
       .sort(() => 0.5 - Math.random())
       .slice(0, 10);
-
     setBookedSeats(randomBookedSeats);
   }, []);
 
   const handleSeatClick = (seat) => {
     if (bookedSeats.includes(seat)) return;
-
-    setSelectedSeats((prevSelectedSeats) =>
-      prevSelectedSeats.includes(seat)
-        ? prevSelectedSeats.filter((s) => s !== seat)
-        : [...prevSelectedSeats, seat]
+    setSelectedSeats((prev) =>
+      prev.includes(seat)
+        ? prev.filter((s) => s !== seat)
+        : [...prev, seat]
     );
   };
 
@@ -40,12 +35,25 @@ const SeatSelection = () => {
       <h2>Select Your Seats</h2>
       <div className="screen">📽 SCREEN</div>
 
+      {/* Seat Legend */}
+      <div className="legend">
+        <div className="legend-item">
+          <div className="legend-color available"></div>Available
+        </div>
+        <div className="legend-item">
+          <div className="legend-color selected"></div>Selected
+        </div>
+        <div className="legend-item">
+          <div className="legend-color booked"></div>Booked
+        </div>
+      </div>
+
       <div className="seats-grid">
         {seatsLayout.map((row, rowIndex) => (
           <div key={rowIndex} className="seat-row">
             {row.map((seat, index) => (
               <React.Fragment key={seat}>
-                {index === 6 && <div className="aisle"></div>} {/* Add aisle after 6 seats */}
+                {index === 6 && <div className="aisle"></div>}
                 <div
                   className={`seat ${
                     bookedSeats.includes(seat)
@@ -75,10 +83,9 @@ const SeatSelection = () => {
         <p>Total Price: ₹{selectedSeats.length * ticketPrice}</p>
       </div>
 
-      {/* PayPal Button */}
-{selectedSeats.length > 0 && (
-  <PayPalButton totalAmount={selectedSeats.length * ticketPrice} />
-)}
+      {selectedSeats.length > 0 && (
+        <PayPalButton totalAmount={selectedSeats.length * ticketPrice} />
+      )}
     </div>
   );
 };

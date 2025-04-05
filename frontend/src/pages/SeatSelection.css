@@ -1,15 +1,54 @@
 .seat-selection-container {
   text-align: center;
-  max-width: 600px;
+  max-width: 700px;
   margin: auto;
+  padding: 30px 15px;
+  background-color: #fff;
+  border-radius: 10px;
 }
 
 .screen {
-  background-color: black;
+  background-color: #222;
   color: white;
-  padding: 5px;
-  margin-bottom: 15px;
+  padding: 8px;
+  margin-bottom: 20px;
   font-weight: bold;
+  border-radius: 4px;
+}
+
+.legend {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #333;
+}
+
+.legend-color {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  border-radius: 4px;
+  border: 1px solid #aaa;
+}
+
+.legend-color.available {
+  background-color: #ccc;
+}
+
+.legend-color.selected {
+  background-color: #ff3d00;
+}
+
+.legend-color.booked {
+  background-color: #555;
 }
 
 .seats-grid {
@@ -21,24 +60,32 @@
 .seat-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
 }
 
 .seat {
   width: 35px;
   height: 35px;
-  margin: 3px;
+  margin: 4px;
   background-color: #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
   transition: 0.2s;
+  user-select: none;
+}
+
+.seat:hover {
+  transform: scale(1.05);
 }
 
 .seat.selected {
-  background-color: green;
+  background-color: #ff3d00;
   color: white;
 }
 
@@ -53,22 +100,42 @@
 }
 
 .price-details {
-  margin-top: 15px;
-  font-size: 18px;
+  margin-top: 25px;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
 }
 
-.proceed-btn {
-  margin-top: 15px;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: red;
+button {
+  background: #cd390be0;
   color: white;
+  padding: 10px 18px;
   border: none;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-top: 15px;
 }
 
-.proceed-btn:disabled {
-  background-color: gray;
+button:disabled {
+  background-color: #aaa;
   cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .seat {
+    width: 30px;
+    height: 30px;
+    font-size: 11px;
+  }
+
+  .legend {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .legend-color {
+    width: 16px;
+    height: 16px;
+  }
 }

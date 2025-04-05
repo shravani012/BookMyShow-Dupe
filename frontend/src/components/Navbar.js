@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Button, Form, FormControl, Dropdown } from "react-bootstrap";
+import { Navbar, Nav, Button, Form, FormControl, Dropdown, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 
@@ -15,63 +15,71 @@ function AppNavbar() {
 
   return (
     <>
-      {/* First Row: Logo, Search Bar, Location Dropdown, Sign In */}
-      <Navbar bg="dark" variant="dark" expand="lg" className="top-navbar">
-        <div className="container d-flex align-items-center w-100">
+      {/* Top Navbar - Red & White Theme */}
+      <Navbar bg="light" expand="lg" className="py-3 shadow-sm border-bottom">
+        <Container fluid className="align-items-center">
           {/* Logo */}
-          <Navbar.Brand as={Link} to="/" className="mr-3">
-            <img src="/logo.png" alt="BookMyShow" className="navbar-logo" />
+          <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
+            <img src="/logo.png" alt="Book-n-Go" height="40" className="me-2" />
           </Navbar.Brand>
 
-          {/* Search Bar */}
-          <Form className="d-flex flex-grow-1 mx-3">
-            <FormControl type="search" placeholder="Search for movies, events, plays..." className="me-2" />
+          {/* Search */}
+          <Form className="d-none d-md-flex flex-grow-1 mx-3">
+            <FormControl
+              type="search"
+              placeholder="Search for movies, events, plays..."
+              className="me-2"
+              style={{ borderRadius: "20px", border: "1px solid #ccc" }}
+            />
           </Form>
 
           {/* Location Dropdown */}
-          <Dropdown>
-            <Dropdown.Toggle variant="outline-light">{location}</Dropdown.Toggle>
+          <Dropdown className="me-3">
+            <Dropdown.Toggle variant="outline-danger" size="sm" className="rounded-pill px-3">
+              {location}
+            </Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item onClick={() => setLocation("Mumbai")}>Mumbai</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Delhi")}>Delhi</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Bangalore")}>Bangalore</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Hyderabad")}>Hyderabad</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Chennai")}>Chennai</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Pune")}>Pune</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Kolkata")}>Kolkata</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Ahmedabad")}>Ahmedabad</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Chandigarh")}>Chandigarh</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Lucknow")}>Lucknow</Dropdown.Item>
-              <Dropdown.Item onClick={() => setLocation("Jaipur")}>Jaipur</Dropdown.Item>
+              {["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Chennai", "Pune", "Kolkata", "Ahmedabad", "Chandigarh", "Lucknow", "Jaipur"]
+                .map((city) => (
+                  <Dropdown.Item key={city} onClick={() => setLocation(city)}>
+                    {city}
+                  </Dropdown.Item>
+                ))}
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Sign In Button */}
+          {/* Login */}
           {user ? (
-            <span className="text-light mx-3">Welcome, {user}</span>
+            <span className="text-danger fw-semibold">Hi, {user.split("@")[0]}</span>
           ) : (
-            <Button variant="outline-light mx-3" onClick={() => setShowLogin(true)}>Sign In</Button>
+            <Button variant="danger" size="sm" className="rounded-pill" onClick={() => setShowLogin(true)}>
+              Sign In
+            </Button>
           )}
-        </div>
+        </Container>
       </Navbar>
 
-      {/* Second Row: Category Navigation */}
-      <Navbar bg="secondary" variant="dark" className="bottom-navbar">
-        <div className="container">
-          <Nav className="mx-auto">
-            <Nav.Link as={Link} to="/movies">Movies</Nav.Link>
-            <Nav.Link as={Link} to="/events">Events</Nav.Link>
-
-            {/* Corrected Category Links */}
-            <Nav.Link as={Link} to="/events/concert">Music</Nav.Link>
-            <Nav.Link as={Link} to="/events/comedy">Comedy</Nav.Link>
-            <Nav.Link as={Link} to="/events/theatre">Theatre</Nav.Link>
-            <Nav.Link as={Link} to="/events/food">Food</Nav.Link>
-            <Nav.Link as={Link} to="/events/art">Art</Nav.Link>
-            <Nav.Link as={Link} to="/events/tech">Tech</Nav.Link>
-            <Nav.Link as={Link} to="/events/fitness">Fitness</Nav.Link>
+      {/* Bottom Navbar - Categories */}
+      <Navbar bg="white" className="category-bar border-bottom">
+        <Container>
+          <Nav className="mx-auto text-uppercase small fw-semibold">
+            {[
+              ["Movies", "/movies"],
+              ["Events", "/events"],
+              ["Music", "/events/concert"],
+              ["Comedy", "/events/comedy"],
+              ["Theatre", "/events/theatre"],
+              ["Food", "/events/food"],
+              ["Art", "/events/art"],
+              ["Tech", "/events/tech"],
+              ["Fitness", "/events/fitness"],
+            ].map(([label, path]) => (
+              <Nav.Link as={Link} to={path} key={label} className="px-3 text-danger nav-link-hover">
+                {label}
+              </Nav.Link>
+            ))}
           </Nav>
-        </div>
+        </Container>
       </Navbar>
 
       <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />

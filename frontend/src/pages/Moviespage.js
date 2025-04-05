@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchNowPlayingMovies, fetchUpcomingMovies } from "../services/tmdbService";
+import {
+  fetchNowPlayingMovies,
+  fetchUpcomingMovies,
+} from "../services/tmdbService";
 
 const MoviesPage = () => {
   const [nowPlaying, setNowPlaying] = useState([]);
@@ -9,8 +12,12 @@ const MoviesPage = () => {
 
   useEffect(() => {
     const loadMovies = async () => {
-      setNowPlaying(await fetchNowPlayingMovies());
-      setUpcomingMovies(await fetchUpcomingMovies());
+      const [now, upcoming] = await Promise.all([
+        fetchNowPlayingMovies(),
+        fetchUpcomingMovies(),
+      ]);
+      setNowPlaying(now);
+      setUpcomingMovies(upcoming);
     };
     loadMovies();
   }, []);
@@ -23,43 +30,39 @@ const MoviesPage = () => {
     }
   };
 
-  return (
-    <div className="movies-container">
-      {/* Now Playing Movies */}
-      <h2 className="section-title">Now Playing</h2>
+  const renderMovieSection = (title, id, movieList) => (
+    <>
+      <h2 className="section-title">{title}</h2>
       <div className="slider-container">
-        <button className="slider-btn left" onClick={() => scrollContainer("nowPlaying", "left")}>❮</button>
-        <div id="nowPlaying" className="movies-wrapper">
-          {nowPlaying.map((movie) => (
-            <div key={movie.id} className="movie-card" onClick={() => navigate(`/movie/${movie.id}`)}>
-              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
+        <button className="slider-btn left" onClick={() => scrollContainer(id, "left")}>❮</button>
+        <div id={id} className="movies-wrapper">
+          {movieList.map((movie) => (
+            <div
+              key={movie.id}
+              className="movie-card card-common"
+              onClick={() => navigate(`/movie/${movie.id}`)}
+            >
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+              />
               <div className="movie-info">
                 <p className="movie-title">{movie.title}</p>
                 <p className="movie-details">⭐ {movie.vote_average}</p>
+                <button className="view-button">View Details</button>
               </div>
             </div>
           ))}
         </div>
-        <button className="slider-btn right" onClick={() => scrollContainer("nowPlaying", "right")}>❯</button>
+        <button className="slider-btn right" onClick={() => scrollContainer(id, "right")}>❯</button>
       </div>
+    </>
+  );
 
-      {/* Upcoming Movies */}
-      <h2 className="section-title">Upcoming Movies</h2>
-      <div className="slider-container">
-        <button className="slider-btn left" onClick={() => scrollContainer("upcomingMovies", "left")}>❮</button>
-        <div id="upcomingMovies" className="movies-wrapper">
-          {upcomingMovies.map((movie) => (
-            <div key={movie.id} className="movie-card" onClick={() => navigate(`/movie/${movie.id}`)}>
-              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
-              <div className="movie-info">
-                <p className="movie-title">{movie.title}</p>
-                <p className="movie-details">⭐ {movie.vote_average}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-        <button className="slider-btn right" onClick={() => scrollContainer("upcomingMovies", "right")}>❯</button>
-      </div>
+  return (
+    <div className="home-container">
+      {renderMovieSection("Now Playing", "nowPlaying", nowPlaying)}
+      {renderMovieSection("Upcoming Movies", "upcomingMovies", upcomingMovies)}
     </div>
   );
 };

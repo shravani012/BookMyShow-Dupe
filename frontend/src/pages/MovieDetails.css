@@ -1,117 +1,152 @@
 .movie-details-container {
-    max-width: 1200px; /* Wider for desktops */
-    margin: auto;
-    padding: 40px;
-    text-align: center;
-  }
-  
-  .movie-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 30px;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-  
-  .movie-header img {
-    width: 300px; /* Slightly larger poster */
-    height: auto;
-    border-radius: 10px;
-  }
-  
-  .movie-info {
-    flex: 1;
-    text-align: left;
-    max-width: 700px; /* Ensuring content doesn't get too narrow */
-  }
-  
-  .movie-info h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-  }
-  
-  .movie-info p {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #444;
-  }
-  
-  /* Sliders */
-  .slider-container {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    margin-top: 20px;
-  }
-  
-  .movies-wrapper, .cast-wrapper {
-    display: flex;
-    gap: 20px;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-  }
-  
-  .slider-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    border: none;
-    padding: 12px 16px;
-    cursor: pointer;
-    font-size: 28px;
-    z-index: 100;
-  }
-  
-  .left {
-    left: -10px;
-  }
-  
-  .right {
-    right: -10px;
-  }
-  
-  /* Cast and Movie Cards */
-  .cast-card, .movie-card {
-    min-width: 180px;
-    text-align: center;
-  }
-  
-  .cast-card img, .movie-card img {
-    width: 100%;
-    border-radius: 8px;
-  }
-  .reviews-container {
-    max-width: 800px;
-    margin: 20px auto;
-    text-align: left;
-  }
-  
-  .review-card {
-    background: #f5f5f5;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-  }
-  
-  .review-card strong {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  .review-card p {
-    font-size: 14px;
-    color: #444;
-  }
-  
-  button {
-    background: #ff3d00;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
+  max-width: 1200px;
+  margin: auto;
+  padding: 40px;
+  text-align: center;
+  background-color: #fff;
+  color: #d32f2f; /* Primary Red Text */
+  font-family: "Segoe UI", sans-serif;
+}
+
+.movie-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 30px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.movie-header img {
+  width: 300px;
+  height: auto;
+  border-radius: 10px;
+  border: 2px solid #fddede;
+  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.1);
+}
+
+.movie-info {
+  flex: 1;
+  text-align: left;
+  max-width: 700px;
+}
+
+.movie-info h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  color: #b71c1c;
+}
+
+.movie-info p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #444;
+}
+
+/* Sliders */
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.movies-wrapper,
+.cast-wrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding-bottom: 10px;
+}
+
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(211, 47, 47, 0.8);
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: 24px;
+  border-radius: 50%;
+  z-index: 10;
+  transition: background 0.2s ease;
+}
+
+.slider-btn:hover {
+  background-color: rgba(183, 28, 28, 0.9);
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+
+/* Cards */
+.cast-card,
+.movie-card {
+  min-width: 180px;
+  text-align: center;
+}
+
+.cast-card img,
+.movie-card img {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid #fddede;
+  transition: transform 0.2s ease;
+}
+
+.cast-card img:hover,
+.movie-card img:hover {
+  transform: scale(1.05);
+}
+
+/* Reviews */
+.reviews-container {
+  max-width: 800px;
+  margin: 40px auto;
+  text-align: left;
+}
+
+.review-card {
+  background: #fff0f0;
+  padding: 15px 20px;
+  border-left: 4px solid #d32f2f;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.review-card strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: #b71c1c;
+}
+
+.review-card p {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Buttons */
+button {
+  background: #d32f2f;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background: #b71c1c;
+}
