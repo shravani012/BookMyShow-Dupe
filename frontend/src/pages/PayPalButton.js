@@ -4,20 +4,23 @@ const PayPalButton = ({ totalAmount }) => {
   const paypalRef = useRef();
 
   useEffect(() => {
-    const loadPayPalScript = () => {
-      if (window.paypal) {
+    const addPayPalScript = () => {
+      const existingScript = document.querySelector("#paypal-sdk");
+      if (!existingScript) {
+        const script = document.createElement("script");
+        script.id = "paypal-sdk";
+        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
+        script.async = true;
+        script.onload = renderPayPalButtons;
+        document.body.appendChild(script);
+      } else {
         renderPayPalButtons();
-        return;
       }
-
-      const script = document.createElement("script");
-      script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
-      script.async = true;
-      script.onload = renderPayPalButtons;
-      document.body.appendChild(script);
     };
 
     const renderPayPalButtons = () => {
+      if (!window.paypal) return;
+
       window.paypal.Buttons({
         createOrder: async () => {
           const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/create-order`, {
@@ -34,23 +37,25 @@ const PayPalButton = ({ totalAmount }) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ orderId: data.orderID }),
           });
-
           const result = await res.json();
-          alert("✅ Payment Successful!");
-          console.log("Payment Result:", result);
-          window.location.href = "/payment-success"; // Optional success page
+          alert("✅ Payment successful!");
         },
         onError: (err) => {
-          console.error("❌ PayPal Error:", err);
+          console.error("❌ PayPal Button Error:", err);
           alert("Payment failed. Please try again.");
         },
       }).render(paypalRef.current);
     };
 
-    loadPayPalScript();
+    addPayPalScript();
   }, [totalAmount]);
 
-  return <div ref={paypalRef}></div>;
+  return (
+    <div>
+      <h3>Complete Payment</h3>
+      <div ref={paypalRef}></div>
+    </div>
+  );
 };
 
 export default PayPalButton;
