@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "./Navbar.css";
+import logo from "./Book-n-go.png";
+
 
 function AppNavbar() {
   const [showLogin, setShowLogin] = useState(false);
@@ -40,7 +42,7 @@ function AppNavbar() {
       <Navbar bg="light" expand="lg" className="py-3 shadow-sm border-bottom">
         <Container fluid className="align-items-center">
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-            <img src="/logo.png" alt="Book-n-Go" height="40" className="me-2" />
+          <img src={logo} alt="Book-n-Go" height="100" className="me-2" />
           </Navbar.Brand>
 
           <Form className="d-none d-md-flex flex-grow-1 mx-3">

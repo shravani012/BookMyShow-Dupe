@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import PayPalButton from "./PayPalButton";
 import "./SeatSelection.css";
 
 const SeatSelection = () => {
@@ -20,10 +19,26 @@ const SeatSelection = () => {
   const handleSeatClick = (seat) => {
     if (bookedSeats.includes(seat)) return;
     setSelectedSeats((prev) =>
-      prev.includes(seat)
-        ? prev.filter((s) => s !== seat)
-        : [...prev, seat]
+      prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
     );
+  };
+
+  const handleCustomPayment = async () => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/create-order`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ amount: selectedSeats.length * ticketPrice }),
+        }
+      );
+      const data = await res.json();
+      alert(`✅ Order created. Order ID: ${data.orderId}`);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Payment initiation failed.");
+    }
   };
 
   const seatsLayout = "ABCDE".split("").map((row) =>
@@ -84,7 +99,15 @@ const SeatSelection = () => {
       </div>
 
       {selectedSeats.length > 0 && (
-        <PayPalButton totalAmount={selectedSeats.length * ticketPrice} />
+        <div className="payment-section text-center">
+          <h4 className="mt-4">Complete Payment</h4>
+          <button
+            className="btn teal-button mt-3 px-4 py-2"
+            onClick={handleCustomPayment}
+          >
+            Pay ₹{selectedSeats.length * ticketPrice} Now
+          </button>
+        </div>
       )}
     </div>
   );
