@@ -1,29 +1,48 @@
 import React, { useState } from "react";
-import { Navbar, Nav, Button, Form, FormControl, Dropdown, Container } from "react-bootstrap";
+import {
+  Navbar,
+  Nav,
+  Button,
+  Form,
+  FormControl,
+  Dropdown,
+  Container,
+} from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
+import "./Navbar.css";
 
 function AppNavbar() {
   const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
   const [user, setUser] = useState(null);
   const [location, setLocation] = useState("Select City");
 
   const handleLogin = (email) => {
-    setUser(email);
+    setUser(email); // string
     setShowLogin(false);
+  };
+
+  const handleSignup = (name) => {
+    setUser({ name }); // object
+    setShowSignup(false);
+  };
+
+  const toggleModals = () => {
+    setShowLogin(!showLogin);
+    setShowSignup(!showSignup);
   };
 
   return (
     <>
-      {/* Top Navbar - Red & White Theme */}
+      {/* Top Navbar */}
       <Navbar bg="light" expand="lg" className="py-3 shadow-sm border-bottom">
         <Container fluid className="align-items-center">
-          {/* Logo */}
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
             <img src="/logo.png" alt="Book-n-Go" height="40" className="me-2" />
           </Navbar.Brand>
 
-          {/* Search */}
           <Form className="d-none d-md-flex flex-grow-1 mx-3">
             <FormControl
               type="search"
@@ -33,7 +52,6 @@ function AppNavbar() {
             />
           </Form>
 
-          {/* Location Dropdown */}
           <Dropdown className="me-3">
             <Dropdown.Toggle variant="outline-danger" size="sm" className="rounded-pill px-3">
               {location}
@@ -48,9 +66,10 @@ function AppNavbar() {
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Login */}
           {user ? (
-            <span className="text-danger fw-semibold">Hi, {user.split("@")[0]}</span>
+            <span className="text-danger fw-semibold">
+              Hi, {typeof user === "string" ? user.split("@")[0] : user?.name || "User"}
+            </span>
           ) : (
             <Button variant="danger" size="sm" className="rounded-pill" onClick={() => setShowLogin(true)}>
               Sign In
@@ -59,7 +78,7 @@ function AppNavbar() {
         </Container>
       </Navbar>
 
-      {/* Bottom Navbar - Categories */}
+      {/* Bottom Navbar */}
       <Navbar bg="white" className="category-bar border-bottom">
         <Container>
           <Nav className="mx-auto text-uppercase small fw-semibold">
@@ -82,7 +101,20 @@ function AppNavbar() {
         </Container>
       </Navbar>
 
-      <LoginModal show={showLogin} handleClose={() => setShowLogin(false)} handleLogin={handleLogin} />
+      {/* Modals */}
+      <LoginModal
+        show={showLogin}
+        handleClose={() => setShowLogin(false)}
+        handleLogin={handleLogin}
+        switchToSignup={toggleModals}
+      />
+
+      <SignupModal
+        show={showSignup}
+        handleClose={() => setShowSignup(false)}
+        handleSignup={handleSignup}
+        switchToLogin={toggleModals}
+      />
     </>
   );
 }

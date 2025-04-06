@@ -1,0 +1,62 @@
+/* Navbar Brand Logo */
+.navbar-brand img {
+    height: 40px;
+  }
+  
+  /* Search Bar */
+  form input[type="search"] {
+    border-radius: 20px !important;
+    border: 1px solid #ccc !important;
+    padding: 6px 14px;
+  }
+  
+  /* Teal Themed Dropdown (City Selector) */
+  .dropdown-toggle {
+    border: 1px solid #00796b !important;
+    background-color: transparent !important;
+    color: #00796b !important;
+    font-weight: 500;
+    font-size: 14px;
+  }
+  
+  .dropdown-toggle:hover {
+    background-color: #e0f2f1 !important;
+    border-color: #004d40 !important;
+    color: #004d40 !important;
+  }
+  
+  /* Sign In Button */
+  .btn-danger {
+    background-color: #00796b !important;
+    border: none !important;
+    font-weight: 500;
+  }
+  
+  .btn-danger:hover {
+    background-color: #004d40 !important;
+  }
+  
+  /* Category Bar */
+  .category-bar {
+    background-color: white;
+    padding: 8px 0;
+  }
+  
+  .category-bar .nav-link {
+    color: #00796b !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .nav-link-hover:hover {
+    text-decoration: underline;
+    color: #004d40 !important;
+    background-color: rgba(0, 150, 136, 0.08);
+    border-radius: 5px;
+  }
+  
+  /* Optional: Logged in user text */
+  .text-danger.fw-semibold {
+    color: #00796b !important;
+  }
+  

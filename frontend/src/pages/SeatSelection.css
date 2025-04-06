@@ -3,8 +3,10 @@
   max-width: 700px;
   margin: auto;
   padding: 30px 15px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 137, 123, 0.1);
+  font-family: "Segoe UI", sans-serif;
 }
 
 .screen {
@@ -44,7 +46,7 @@
 }
 
 .legend-color.selected {
-  background-color: #ff3d00;
+  background-color: #00897b; /* ✅ Teal */
 }
 
 .legend-color.booked {
@@ -76,8 +78,9 @@
   border-radius: 6px;
   font-size: 13px;
   font-weight: 500;
-  transition: 0.2s;
+  transition: transform 0.2s, background-color 0.2s;
   user-select: none;
+  color: #000;
 }
 
 .seat:hover {
@@ -85,7 +88,7 @@
 }
 
 .seat.selected {
-  background-color: #ff3d00;
+  background-color: #00897b; /* ✅ Teal */
   color: white;
 }
 
@@ -107,7 +110,7 @@
 }
 
 button {
-  background: #cd390be0;
+  background: #00695c; /* Deep teal */
   color: white;
   padding: 10px 18px;
   border: none;
@@ -115,6 +118,11 @@ button {
   border-radius: 6px;
   font-weight: 500;
   margin-top: 15px;
+  transition: background-color 0.2s ease;
+}
+
+button:hover {
+  background-color: #004d40;
 }
 
 button:disabled {

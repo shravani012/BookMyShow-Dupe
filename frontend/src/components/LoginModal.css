@@ -1,0 +1,35 @@
+/* Teal Header */
+.teal-header {
+  background-color: #00897b; /* Deep Teal */
+  color: white;
+}
+
+/* Teal Button */
+.teal-button {
+  background-color: #00897b;
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.teal-button:hover {
+  background-color: #00695c; /* Darker Teal */
+  color: white;
+}
+
+/* Modal Styling */
+.custom-login-modal {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Modal Footer Links */
+.modal-footer a {
+  color: #00897b;
+  text-decoration: none;
+}
+
+.modal-footer a:hover {
+  text-decoration: underline;
+}

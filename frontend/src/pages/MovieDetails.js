@@ -67,7 +67,7 @@ const MovieDetails = () => {
         <div className="movie-info">
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
-          <button className="book-btn" onClick={() => navigate(`/book/${id}`)}>
+          <button className="book-button" onClick={() => navigate(`/book/${id}`)}>
           🎟️ Book Tickets
           </button>
         </div>

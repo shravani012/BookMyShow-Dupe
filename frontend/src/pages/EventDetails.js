@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom"; // ✅ Added useNavigate import
+import { useParams, useNavigate } from "react-router-dom"; 
 import artExhibition from "../assets/images/art-exhibition.jpeg";
 import bollywoodNight from "../assets/images/bollywood-night.jpeg";
 import bookFair from "../assets/images/book-fair.jpeg";
@@ -22,6 +22,7 @@ import theatrePlay from "../assets/images/theatre-play.jpeg";
 import travelExpo from "../assets/images/travel-expo.jpeg";
 import web3Conf from "../assets/images/web3-conf.png";
 import yogaRetreat from "../assets/images/yoga retreat.jpeg";
+import './Events.css';
 
 export const eventList = [
   {

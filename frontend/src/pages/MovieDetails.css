@@ -4,10 +4,11 @@
   padding: 40px;
   text-align: center;
   background-color: #fff;
-  color: #d32f2f; /* Primary Red Text */
+  color: #00695c; /* Primary Teal Text */
   font-family: "Segoe UI", sans-serif;
 }
 
+/* Header Section */
 .movie-header {
   display: flex;
   align-items: flex-start;
@@ -20,8 +21,8 @@
   width: 300px;
   height: auto;
   border-radius: 10px;
-  border: 2px solid #fddede;
-  box-shadow: 0 4px 10px rgba(211, 47, 47, 0.1);
+  border: 2px solid #cdeae6;
+  box-shadow: 0 4px 10px rgba(0, 150, 136, 0.1);
 }
 
 .movie-info {
@@ -33,7 +34,7 @@
 .movie-info h1 {
   font-size: 32px;
   margin-bottom: 10px;
-  color: #b71c1c;
+  color: #004d40;
 }
 
 .movie-info p {
@@ -42,7 +43,26 @@
   color: #444;
 }
 
-/* Sliders */
+/* Book Tickets Button (Primary Teal Style) */
+.book-button {
+  background: #00897b;
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 15px;
+  font-size: 16px;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-button:hover {
+  background: #00695c;
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 105, 92, 0.3);
+}
+
+/* Slider Arrows */
 .slider-container {
   position: relative;
   overflow: hidden;
@@ -63,7 +83,7 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(211, 47, 47, 0.8);
+  background-color: rgba(0, 150, 136, 0.8);
   color: white;
   border: none;
   padding: 10px 14px;
@@ -75,7 +95,7 @@
 }
 
 .slider-btn:hover {
-  background-color: rgba(183, 28, 28, 0.9);
+  background-color: rgba(0, 121, 107, 0.9);
 }
 
 .left {
@@ -97,7 +117,7 @@
 .movie-card img {
   width: 100%;
   border-radius: 8px;
-  border: 1px solid #fddede;
+  border: 1px solid #cdeae6;
   transition: transform 0.2s ease;
 }
 
@@ -106,7 +126,7 @@
   transform: scale(1.05);
 }
 
-/* Reviews */
+/* Reviews Section */
 .reviews-container {
   max-width: 800px;
   margin: 40px auto;
@@ -114,9 +134,9 @@
 }
 
 .review-card {
-  background: #fff0f0;
+  background: #e0f2f1;
   padding: 15px 20px;
-  border-left: 4px solid #d32f2f;
+  border-left: 4px solid #009688;
   border-radius: 8px;
   margin-bottom: 16px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -126,7 +146,7 @@
   display: block;
   font-size: 16px;
   margin-bottom: 6px;
-  color: #b71c1c;
+  color: #004d40;
 }
 
 .review-card p {
@@ -135,18 +155,19 @@
   line-height: 1.5;
 }
 
-/* Buttons */
-button {
-  background: #d32f2f;
-  color: white;
-  padding: 10px 16px;
+/* See More / Show Less Button (Scoped to reviews only) */
+.reviews-container button {
+  background: #eeeeee;
+  color: #333;
+  padding: 8px 14px;
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  margin-top: 15px;
-  transition: background 0.3s ease;
+  margin-top: 10px;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
-button:hover {
-  background: #b71c1c;
+.reviews-container button:hover {
+  background: #cccccc;
 }

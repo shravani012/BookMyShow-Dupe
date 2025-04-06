@@ -19,7 +19,7 @@
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 137, 123, 0.08);
   text-align: center;
   background-color: #fff;
 }
@@ -39,12 +39,12 @@
   flex-grow: 1;
 }
 
-/* Red themed button styling */
+/* Teal themed button styling */
 .card-body .btn {
   margin-top: auto;
   align-self: center;
   width: 80%;
-  background-color: #ff3d00;
+  background-color: #00897b;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -54,6 +54,6 @@
 }
 
 .card-body .btn:hover {
-  background-color: #e53900;
+  background-color: #00695c;
   color: white;
 }

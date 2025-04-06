@@ -1,0 +1,35 @@
+/* Teal Header */
+.teal-header {
+    background-color: #00897b;
+    color: white;
+  }
+  
+  /* Teal Button */
+  .teal-button {
+    background-color: #00897b;
+    border: none;
+    color: white;
+    font-weight: 500;
+  }
+  
+  .teal-button:hover {
+    background-color: #00695c;
+    color: white;
+  }
+  
+  /* Modal Styling */
+  .custom-signup-modal {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  /* Footer Link Styling */
+  .modal-footer a {
+    color: #00897b;
+    text-decoration: none;
+  }
+  
+  .modal-footer a:hover {
+    text-decoration: underline;
+  }
+  

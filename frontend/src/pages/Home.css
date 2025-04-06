@@ -7,8 +7,8 @@
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
-  color: #d80000;
-  border-left: 5px solid #d80000;
+  color: #00796b;
+  border-left: 5px solid #00796b;
   padding-left: 10px;
 }
 
@@ -31,108 +31,6 @@
   display: none;
 }
 
-.movie-card {
-  flex: 0 0 140px;
-  background-color: #fff;
-  color: #000;
-  border-radius: 10px;
-  border: 1px solid #eee;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 300px;
-}
-
-.movie-card:hover {
-  transform: scale(1.03);
-}
-
-.movie-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px 10px 0 0;
-}
-
-.movie-info {
-  padding: 8px;
-}
-
-.movie-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 4px;
-}
-
-.movie-details {
-  font-size: 0.78rem;
-  color: #555;
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-/* Always show "View Details" */
-.view-button {
-  margin: 8px auto 10px;
-  padding: 6px 14px;
-  background-color: #d80000;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  transition: background-color 0.3s ease;
-}
-
-.view-button:hover {
-  background-color: #b00000;
-}
-
-/* Arrows */
-.slider-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: rgba(255, 0, 0, 0.7);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 10;
-  border-radius: 50%;
-}
-
-.slider-btn.left {
-  left: 0;
-}
-
-.slider-btn.right {
-  right: 0;
-}
-
-/* Responsive */
-@media (max-width: 1024px) {
-  .movie-card {
-    flex: 0 0 160px;
-  }
-}
-
-@media (max-width: 768px) {
-  .movie-card {
-    flex: 0 0 45%;
-  }
-}
-
-@media (max-width: 480px) {
-  .movie-card {
-    flex: 0 0 80%;
-  }
-}
 .movie-card {
   flex: 0 0 auto;
   width: 160px;
@@ -187,10 +85,11 @@
   text-overflow: ellipsis;
 }
 
+/* View Button (Movies + Events) */
 .view-button {
   margin-top: 10px;
   align-self: center;
-  background-color: #d60000;
+  background-color: #00897b;
   color: white;
   padding: 6px 12px;
   border: none;
@@ -201,12 +100,54 @@
 }
 
 .view-button:hover {
-  background-color: #b30000;
+  background-color: #00695c;
 }
-/* Make event cards similar in size and spacing to movie cards */
+
+/* Arrows */
+.slider-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 150, 136, 0.8);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+}
+
+.slider-btn.left {
+  left: 0;
+}
+
+.slider-btn.right {
+  right: 0;
+}
+
+/* Responsive Cards */
+@media (max-width: 1024px) {
+  .movie-card {
+    flex: 0 0 160px;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie-card {
+    flex: 0 0 45%;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-card {
+    flex: 0 0 80%;
+  }
+}
+
+/* Event Card Styling */
 .event-card {
-  width: 180px;            /* Wider card */
-  margin: 0 6px;           /* Tighter spacing between cards */
+  width: 180px;
+  margin: 0 6px;
   border-radius: 12px;
   overflow: hidden;
   background-color: #fff;
@@ -224,7 +165,7 @@
 
 .event-card img {
   width: 100%;
-  height: 230px;          /* Same as movie card image */
+  height: 230px;
   object-fit: cover;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -253,26 +194,10 @@
   text-overflow: ellipsis;
 }
 
-.view-button {
-  margin-top: 10px;
-  align-self: center;
-  background-color: #d60000;
-  color: white;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.view-button:hover {
-  background-color: #b30000;
-}
 .events-wrapper {
   display: flex;
   flex-direction: row;
-  gap: 8px;             /* Reduced gap for tighter look */
+  gap: 8px;
   overflow-x: auto;
   scroll-behavior: smooth;
   padding-bottom: 10px;
