@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Home from "./pages/Home";
 import MoviesPage from "./pages/Moviespage";
@@ -12,24 +12,78 @@ import AppNavbar from "./components/Navbar";
 import LoginModal from "./components/LoginModal";
 import SignupModal from "./components/SignupModal";
 import CategoryPage from "./pages/CategoryPage";
-import EventSeatSelection from "./pages/EventSeatSelection"; // ✅ Add this import
+import EventSeatSelection from "./pages/EventSeatSelection";
 
 function App() {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [user, setUser] = useState(null);
 
-  const handleLogin = (email) => {
-    console.log("Logged in as:", email);
+  // ✅ Load user email from localStorage on first render
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("userEmail");
+    if (savedEmail) {
+      setUser(savedEmail);
+    }
+  }, []);
+
+  // ✅ Login handler with API
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userEmail", email);
+        setUser(email);
+        alert("✅ Login successful!");
+      } else {
+        alert(data.error || "Login failed");
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      alert("❌ Login failed");
+    }
   };
 
-  const handleSignup = (data) => {
-    console.log("Signed up with:", data);
+  // ✅ Signup handler with API
+  const handleSignup = async (name, email, password) => {
+    try {
+      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("userEmail", email);
+        setUser(email);
+        alert("✅ Signup successful!");
+      } else {
+        alert(data.error || "Signup failed");
+      }
+    } catch (err) {
+      console.error("Signup error:", err);
+      alert("❌ Signup failed");
+    }
   };
 
   return (
     <Router>
-      {/* ✅ Pass modal toggles to navbar if needed */}
-      <AppNavbar onLoginClick={() => setShowLogin(true)} />
+      <AppNavbar
+        onLoginClick={() => setShowLogin(true)}
+        user={user}
+      />
 
       <div className="container mt-4">
         <Routes>
@@ -45,12 +99,11 @@ function App() {
         </Routes>
       </div>
 
-      {/* ✅ Modals with switch logic */}
       <LoginModal
         show={showLogin}
         handleClose={() => setShowLogin(false)}
         handleLogin={handleLogin}
-        openSignup={() => {
+        switchToSignup={() => {
           setShowLogin(false);
           setShowSignup(true);
         }}
@@ -60,7 +113,7 @@ function App() {
         show={showSignup}
         handleClose={() => setShowSignup(false)}
         handleSignup={handleSignup}
-        openLogin={() => {
+        switchToLogin={() => {
           setShowSignup(false);
           setShowLogin(true);
         }}

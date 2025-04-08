@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Navbar,
   Nav,
@@ -9,32 +9,11 @@ import {
   Container,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LoginModal from "./LoginModal";
-import SignupModal from "./SignupModal";
 import "./Navbar.css";
 import logo from "./Book-n-go.png";
 
-
-function AppNavbar() {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
-  const [user, setUser] = useState(null);
-  const [location, setLocation] = useState("Select City");
-
-  const handleLogin = (email) => {
-    setUser(email); // string
-    setShowLogin(false);
-  };
-
-  const handleSignup = (name) => {
-    setUser({ name }); // object
-    setShowSignup(false);
-  };
-
-  const toggleModals = () => {
-    setShowLogin(!showLogin);
-    setShowSignup(!showSignup);
-  };
+function AppNavbar({ onLoginClick, user }) {
+  const [location, setLocation] = React.useState("Select City");
 
   return (
     <>
@@ -42,7 +21,7 @@ function AppNavbar() {
       <Navbar bg="light" expand="lg" className="py-3 shadow-sm border-bottom">
         <Container fluid className="align-items-center">
           <Navbar.Brand as={Link} to="/" className="d-flex align-items-center">
-          <img src={logo} alt="Book-n-Go" height="100" className="me-2" />
+            <img src={logo} alt="Book-n-Go" height="100" className="me-2" />
           </Navbar.Brand>
 
           <Form className="d-none d-md-flex flex-grow-1 mx-3">
@@ -73,7 +52,7 @@ function AppNavbar() {
               Hi, {typeof user === "string" ? user.split("@")[0] : user?.name || "User"}
             </span>
           ) : (
-            <Button variant="danger" size="sm" className="rounded-pill" onClick={() => setShowLogin(true)}>
+            <Button variant="danger" size="sm" className="rounded-pill" onClick={onLoginClick}>
               Sign In
             </Button>
           )}
@@ -102,21 +81,6 @@ function AppNavbar() {
           </Nav>
         </Container>
       </Navbar>
-
-      {/* Modals */}
-      <LoginModal
-        show={showLogin}
-        handleClose={() => setShowLogin(false)}
-        handleLogin={handleLogin}
-        switchToSignup={toggleModals}
-      />
-
-      <SignupModal
-        show={showSignup}
-        handleClose={() => setShowSignup(false)}
-        handleSignup={handleSignup}
-        switchToLogin={toggleModals}
-      />
     </>
   );
 }
