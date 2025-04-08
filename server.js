@@ -15,9 +15,9 @@ const cors = require("cors");
 
 const allowedOrigins = [
   "http://localhost:3000",
-  "https://book-my-show-dupe.vercel.app/",
-  "https://book-my-show-dupe-git-main-shravani-joshis-projects.vercel.app/",
-  "https://book-my-show-dupe-mfynpnlgv-shravani-joshis-projects.vercel.app/" // Add your Vercel frontend URL
+  "https://book-my-show-dupe.vercel.app",
+  "https://book-my-show-dupe-git-main-shravani-joshis-projects.vercel.app",
+  "https://book-my-show-dupe-mfynpnlgv-shravani-joshis-projects.vercel.app"
 ];
 
 app.use(

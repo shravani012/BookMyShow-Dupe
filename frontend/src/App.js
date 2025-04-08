@@ -53,7 +53,7 @@ function App() {
     }
   };
 
-  // ✅ Signup handler with API
+  // ✅ Signup handler with fixed key
   const handleSignup = async (name, email, password) => {
     try {
       const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, {
@@ -61,7 +61,7 @@ function App() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ name, email, password })
+        body: JSON.stringify({ fullName: name, email, password }) // ✅ FIXED key here
       });
 
       const data = await response.json();
