@@ -114,7 +114,7 @@
 }
 
 /* 🔵 Teal custom button */
-.teal-button {
+.button {
   background-color: #009688;
   color: white;
   border: none;
@@ -124,7 +124,7 @@
   transition: background-color 0.3s ease;
 }
 
-.teal-button:hover {
+.button:hover {
   background-color: #00796b;
 }
 
@@ -150,28 +150,3 @@ button:disabled {
     height: 16px;
   }
 }
-/* Style PayPal button to match teal theme */
-.paypal-container iframe {
-  transform: scale(1);
-}
-
-.paypal-container .paypal-buttons {
-  width: 100% !important;
-  display: flex;
-  justify-content: center;
-}
-
-.paypal-container button {
-  background-color: #00695c !important;
-  color: white !important;
-  padding: 10px 18px !important;
-  font-weight: 500;
-  border: none !important;
-  border-radius: 6px !important;
-  transition: background-color 0.2s ease;
-}
-
-.paypal-container button:hover {
-  background-color: #004d40 !important;
-}
-

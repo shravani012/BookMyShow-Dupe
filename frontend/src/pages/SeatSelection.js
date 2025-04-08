@@ -100,9 +100,8 @@ const SeatSelection = () => {
 
       {selectedSeats.length > 0 && (
         <div className="payment-section text-center">
-          <h4 className="mt-4">Complete Payment</h4>
           <button
-            className="btn teal-button mt-3 px-4 py-2"
+            className="button mt-3 px-4 py-2"
             onClick={handleCustomPayment}
           >
             Pay ₹{selectedSeats.length * ticketPrice} Now
