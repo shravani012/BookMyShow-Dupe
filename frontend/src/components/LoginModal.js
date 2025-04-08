@@ -57,13 +57,14 @@ const LoginModal = ({ show, handleClose, handleLogin, switchToSignup }) => {
           <Button variant="outline-danger" onClick={handleClose}>
             <i className="bi bi-x-circle me-1"></i>Cancel
           </Button>
-          <p className="mt-3 mb-0">Not a member?{" "}
-            <a href="#" onClick={(e) => {
-              e.preventDefault();
-              switchToSignup();
-            }}>
+          <p className="mt-3 mb-0">
+            Not a member?{" "}
+            <button
+              type="button"
+              onClick={switchToSignup}
+            >
               Sign Up
-            </a>
+            </button>
           </p>
         </Modal.Footer>
       </div>

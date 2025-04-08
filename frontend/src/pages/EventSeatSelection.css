@@ -65,6 +65,12 @@
   border: 1px solid #666;
 }
 
+.seat.yours {
+  background-color: #1e88e5; /* blue */
+  color: white;
+  border: 1px solid #1976d2;
+}
+
 .legend {
   display: flex;
   justify-content: center;
@@ -79,6 +85,8 @@
   margin-right: 6px;
   border: none;
   font-size: 0;
+  width: 20px;
+  height: 20px;
 }
 
 .summary {
@@ -90,6 +98,7 @@
   font-size: 0.95rem;
   border: 1px solid #b2dfdb;
   box-shadow: 0 0 10px rgba(0, 137, 123, 0.1);
+  text-align: center;
 }
 
 .summary p {
@@ -112,4 +121,19 @@
 
 .summary button:hover {
   background-color: #004d40;
+}
+
+.button {
+  background-color: #009688;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 10px 25px;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #00796b;
 }
