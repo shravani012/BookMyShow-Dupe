@@ -8,9 +8,33 @@ function SignupModal({ show, handleClose, handleSignup, switchToLogin }) {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    handleSignup(name, email, password);
     handleClose();
   };
+
+const handleSignup = async (name, email, password) => {
+    const formData = { name, email, password };
+  
+    try {
+      const res = await fetch("https://bookmyshow-dupe.onrender.com/api/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        alert("✅ Registration successful!");
+      } else {
+        alert(`❌ Error: ${data.error || data.message}`);
+      }
+    } catch (err) {
+      alert("❌ Network or server error: " + err.message);
+    }
+  };
+  
 
   return (
     <Modal show={show} onHide={handleClose} centered>

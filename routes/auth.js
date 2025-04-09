@@ -13,6 +13,7 @@ router.post("/register", async (req, res) => {
     res.json({ message: "User Registered" });
 });
 
+
 router.post("/login", async (req, res) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user || !(await bcrypt.compare(req.body.password, user.password))) {
