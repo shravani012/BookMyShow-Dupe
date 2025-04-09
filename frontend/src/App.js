@@ -30,7 +30,7 @@ function App() {
   // ✅ Login handler with API
   const handleLogin = async (email, password) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -56,7 +56,7 @@ function App() {
   // ✅ Signup handler with API
   const handleSignup = async (name, email, password) => {
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/auth/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/auth/register`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
