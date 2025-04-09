@@ -18,7 +18,7 @@ const SeatSelection = () => {
       .slice(0, 10);
     setBookedSeats(randomBookedSeats);
 
-    if (!("webkitSpeechRecognition" in window)) {
+    if (!("webkitSpeechRecognition" in window || "SpeechRecognition" in window)) {
       alert("Your browser doesn't support Speech Recognition.");
     }
   }, []);
@@ -31,7 +31,6 @@ const SeatSelection = () => {
       prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
     );
 
-    // Remove owner if seat is deselected
     if (selectedSeats.includes(seat)) {
       const updatedOwners = { ...seatOwners };
       delete updatedOwners[seat];
@@ -58,33 +57,50 @@ const SeatSelection = () => {
     recognition.start();
 
     recognition.onresult = (event) => {
-      const command = event.results[0][0].transcript.toLowerCase();
+      const command = event.results[0][0].transcript.toLowerCase().trim();
       console.log("Voice command:", command);
 
-      const match = command.match(/book\s+(\d+)\s+seats?\s+in\s+row\s+([a-e])/i);
-      if (match) {
-        const count = parseInt(match[1]);
-        const row = match[2].toUpperCase();
+      // 🎟 Booking seats
+      const bookMatch = command.match(/book\s+(\d+)\s+seats?\s+in(?:\s+row)?\s+([a-e])/i);
+      if (bookMatch) {
+        const count = parseInt(bookMatch[1]);
+        const row = bookMatch[2].toUpperCase();
 
         const rowSeats = Array.from({ length: 12 }, (_, i) => `${row}${i + 1}`);
-        const availableInRow = rowSeats.filter(
-          (seat) => !bookedSeats.includes(seat) && !yourSeats.includes(seat)
+        const available = rowSeats.filter(
+          (s) => !bookedSeats.includes(s) && !yourSeats.includes(s)
         );
-        const toSelect = availableInRow.slice(0, count);
+        const toSelect = available.slice(0, count);
 
         if (toSelect.length < count) {
           alert(`❌ Only ${toSelect.length} seats available in Row ${row}`);
           return;
         }
 
-        setSelectedSeats((prev) => [...prev, ...toSelect]);
-      } else {
-        alert("🎙️ Please say something like: 'Book 3 seats in Row B'");
+        setSelectedSeats((prev) => [...new Set([...prev, ...toSelect])]);
+        return;
       }
+
+      // 🧍 Assigning seat to friend
+      const assignMatch = command.match(/assign\s+([a-e][0-9]{1,2})\s+to\s+([a-z]+)/i);
+      if (assignMatch) {
+        const seat = assignMatch[1].toUpperCase();
+        const name = assignMatch[2].charAt(0).toUpperCase() + assignMatch[2].slice(1);
+
+        if (!selectedSeats.includes(seat)) {
+          alert(`❌ You need to select seat ${seat} first.`);
+          return;
+        }
+
+        setSeatOwners((prev) => ({ ...prev, [seat]: name }));
+        return;
+      }
+
+      alert("⚠️ Invalid command. Try: 'Book 3 seats in B' or 'Assign A1 to Rahul'");
     };
 
     recognition.onerror = (e) => {
-      console.error("Voice recognition error:", e);
+      console.error("Speech error:", e);
       alert("⚠️ Voice recognition failed. Try again.");
     };
   };
@@ -98,25 +114,17 @@ const SeatSelection = () => {
       <h2>Select Your Seats</h2>
       <div className="screen">📽 SCREEN</div>
 
-      {/* Seat Legend */}
+      {/* Legend */}
       <div className="legend">
-        <div className="legend-item">
-          <div className="legend-color available"></div>Available
-        </div>
-        <div className="legend-item">
-          <div className="legend-color selected"></div>Selected
-        </div>
-        <div className="legend-item">
-          <div className="legend-color your-seat"></div>Your Seat
-        </div>
-        <div className="legend-item">
-          <div className="legend-color booked"></div>Booked
-        </div>
+        <div className="legend-item"><div className="legend-color available"></div>Available</div>
+        <div className="legend-item"><div className="legend-color selected"></div>Selected</div>
+        <div className="legend-item"><div className="legend-color your-seat"></div>Your Seat</div>
+        <div className="legend-item"><div className="legend-color booked"></div>Booked</div>
       </div>
 
       <div className="seats-grid">
-        {seatsLayout.map((row, rowIndex) => (
-          <div key={rowIndex} className="seat-row">
+        {seatsLayout.map((row, i) => (
+          <div key={i} className="seat-row">
             {row.map((seat, index) => (
               <React.Fragment key={seat}>
                 {index === 6 && <div className="aisle"></div>}
@@ -140,42 +148,30 @@ const SeatSelection = () => {
         ))}
       </div>
 
-      {/* ✅ After booking message */}
+      {/* Confirmation */}
       {paymentDone && yourSeats.length > 0 && (
         <div className="confirmation-message">
-          <h4 className="mt-4">✅ Booking Confirmed!</h4>
-          <p>
-            Your Seats: <strong>{yourSeats.join(", ")}</strong>
-          </p>
-          <p>
-            Split Among:
+          <h4>✅ Booking Confirmed!</h4>
+          <p>Your Seats: <strong>{yourSeats.join(", ")}</strong></p>
+          <p>Split Among:
             <ul>
-              {Object.entries(seatOwners).map(([seat, owner], idx) => (
-                <li key={idx}>
-                  {seat} - {owner || "You"}
-                </li>
+              {yourSeats.map((seat, idx) => (
+                <li key={idx}>{seat} - {seatOwners[seat] || "You"}</li>
               ))}
             </ul>
           </p>
-          <p>🎟 Enjoy the show! Details will be sent to your email.</p>
         </div>
       )}
 
-      {/* ⬇ Price details only before payment */}
+      {/* Before payment */}
       {!paymentDone && (
         <>
           <div className="price-details">
             <p>Price per seat: ₹{ticketPrice}</p>
-            <p>
-              Selected Seats:{" "}
-              {selectedSeats.length > 0
-                ? `${selectedSeats.length} (${selectedSeats.join(", ")})`
-                : "None"}
-            </p>
+            <p>Selected Seats: {selectedSeats.length > 0 ? `${selectedSeats.length} (${selectedSeats.join(", ")})` : "None"}</p>
             <p>Total Price: ₹{selectedSeats.length * ticketPrice}</p>
           </div>
 
-          {/* 👥 Split Booking Input Fields */}
           {selectedSeats.length > 0 && (
             <div className="split-payment mt-4">
               <h5>Assign Friends to Seats</h5>
@@ -187,10 +183,7 @@ const SeatSelection = () => {
                     placeholder="Enter friend's name"
                     value={seatOwners[seat] || ""}
                     onChange={(e) =>
-                      setSeatOwners((prev) => ({
-                        ...prev,
-                        [seat]: e.target.value,
-                      }))
+                      setSeatOwners((prev) => ({ ...prev, [seat]: e.target.value }))
                     }
                     className="seat-owner-input"
                   />
@@ -199,20 +192,15 @@ const SeatSelection = () => {
             </div>
           )}
 
-          {/* 🎙 Voice Book Button */}
           <div className="text-center my-3">
             <button className="button px-4 py-2" onClick={handleVoiceCommand}>
-              🎙️ Voice Book
+              🎙️ Voice Command
             </button>
           </div>
 
-          {/* 💳 Pay Button */}
           {selectedSeats.length > 0 && (
             <div className="payment-section text-center">
-              <button
-                className="button mt-4 px-4 py-2"
-                onClick={handleCustomPayment}
-              >
+              <button className="button mt-4 px-4 py-2" onClick={handleCustomPayment}>
                 Pay ₹{selectedSeats.length * ticketPrice} Now
               </button>
             </div>
