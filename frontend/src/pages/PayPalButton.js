@@ -1,3 +1,4 @@
+import React, { useEffect, useRef } from "react";
 const PayPalButton = ({ totalAmount, selectedSeats, onBookingSuccess }) => {
   const paypalRef = useRef();
   const isRendered = useRef(false); // 👈 new flag
