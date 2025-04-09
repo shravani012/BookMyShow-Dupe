@@ -5,9 +5,19 @@ import {
   fetchUpcomingMovies,
 } from "../services/tmdbService";
 
+const moodGenreMap = {
+  Happy: [35, 10751], // Comedy, Family
+  Sad: [18],          // Drama
+  Thriller: [53, 27], // Thriller, Horror
+  Romantic: [10749],  // Romance
+  Action: [28],       // Action
+};
+
 const MoviesPage = () => {
   const [nowPlaying, setNowPlaying] = useState([]);
   const [upcomingMovies, setUpcomingMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [mood, setMood] = useState("All");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,9 +28,22 @@ const MoviesPage = () => {
       ]);
       setNowPlaying(now);
       setUpcomingMovies(upcoming);
+      setFilteredMovies([...now, ...upcoming]);
     };
     loadMovies();
   }, []);
+
+  useEffect(() => {
+    if (mood === "All") {
+      setFilteredMovies([...nowPlaying, ...upcomingMovies]);
+    } else {
+      const genreIds = moodGenreMap[mood];
+      const filtered = [...nowPlaying, ...upcomingMovies].filter((movie) =>
+        movie.genre_ids.some((genre) => genreIds.includes(genre))
+      );
+      setFilteredMovies(filtered);
+    }
+  }, [mood, nowPlaying, upcomingMovies]);
 
   const scrollContainer = (id, direction) => {
     const container = document.getElementById(id);
@@ -30,13 +53,39 @@ const MoviesPage = () => {
     }
   };
 
-  const renderMovieSection = (title, id, movieList) => (
-    <>
-      <h2 className="section-title">{title}</h2>
+  return (
+    <div className="home-container">
+      {/* 🔥 Mood Selection Dropdown */}
+      <div className="mood-selector">
+        <label htmlFor="mood" style={{ fontWeight: "bold", marginRight: "10px" }}>
+          What’s your mood today?
+        </label>
+        <select
+          id="mood"
+          value={mood}
+          onChange={(e) => setMood(e.target.value)}
+          style={{ padding: "8px", fontSize: "16px" }}
+        >
+          <option value="All">All</option>
+          <option value="Happy">Happy</option>
+          <option value="Sad">Sad</option>
+          <option value="Thriller">Thriller</option>
+          <option value="Romantic">Romantic</option>
+          <option value="Action">Action</option>
+        </select>
+      </div>
+
+      {/* 🎥 Filtered Movie Recommendations */}
+      <h2 className="section-title">
+        {mood === "All" ? "Recommended Movies" : `Mood: ${mood}`}
+      </h2>
+
       <div className="slider-container">
-        <button className="slider-btn left" onClick={() => scrollContainer(id, "left")}>❮</button>
-        <div id={id} className="movies-wrapper">
-          {movieList.map((movie) => (
+        <button className="slider-btn left" onClick={() => scrollContainer("moodMovies", "left")}>
+          ❮
+        </button>
+        <div id="moodMovies" className="movies-wrapper">
+          {filteredMovies.map((movie) => (
             <div
               key={movie.id}
               className="movie-card card-common"
@@ -54,15 +103,10 @@ const MoviesPage = () => {
             </div>
           ))}
         </div>
-        <button className="slider-btn right" onClick={() => scrollContainer(id, "right")}>❯</button>
+        <button className="slider-btn right" onClick={() => scrollContainer("moodMovies", "right")}>
+          ❯
+        </button>
       </div>
-    </>
-  );
-
-  return (
-    <div className="home-container">
-      {renderMovieSection("Now Playing", "nowPlaying", nowPlaying)}
-      {renderMovieSection("Upcoming Movies", "upcomingMovies", upcomingMovies)}
     </div>
   );
 };
