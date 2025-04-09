@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import PayPalButton from "../components/PayPalButton"; // Adjust path if needed
+import PayPalButton from "./PayPalButton"; // Adjust path if needed
 import "./SeatSelection.css";
 
 const SeatSelection = () => {
