@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";z
+import React, { useState, useEffect } from "react";
 import "./SeatSelection.css";
 
 const SeatSelection = () => {
@@ -95,11 +95,11 @@ const SeatSelection = () => {
           <p>
             Your Seats: <strong>{yourSeats.join(", ")}</strong>
           </p>
-          <p>🎟️ Enjoy the show! Details will be sent to your email.</p>
+          <p>🎟 Enjoy the show! Details will be sent to your email.</p>
         </div>
       )}
 
-      {/* ⬇️ Price details only before payment */}
+      {/* ⬇ Price details only before payment */}
       {!paymentDone && (
         <>
           <div className="price-details">
