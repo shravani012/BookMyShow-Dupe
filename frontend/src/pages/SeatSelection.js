@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import PayPalButton from "../components/PayPalButton"; // Adjust path if needed
 import "./SeatSelection.css";
 
 const SeatSelection = () => {
@@ -25,16 +26,10 @@ const SeatSelection = () => {
     );
   };
 
-  const handleCustomPayment = async () => {
-    try {
-      alert("✅ Booking successful!");
-      setYourSeats(selectedSeats);
-      setSelectedSeats([]);
-      setPaymentDone(true);
-    } catch (err) {
-      console.error(err);
-      alert("❌ Payment failed. Please try again.");
-    }
+  const handleBookingSuccess = () => {
+    setYourSeats(selectedSeats);
+    setSelectedSeats([]);
+    setPaymentDone(true);
   };
 
   const seatsLayout = "ABCDE".split("").map((row) =>
@@ -88,7 +83,7 @@ const SeatSelection = () => {
         ))}
       </div>
 
-      {/* ✅ After booking message */}
+      {/* ✅ After Booking Message */}
       {paymentDone && yourSeats.length > 0 && (
         <div className="confirmation-message">
           <h4 className="mt-4">✅ Booking Confirmed!</h4>
@@ -99,7 +94,7 @@ const SeatSelection = () => {
         </div>
       )}
 
-      {/* ⬇️ Price details only before payment */}
+      {/* 💳 Price + Payment (Only Before Payment) */}
       {!paymentDone && (
         <>
           <div className="price-details">
@@ -114,13 +109,12 @@ const SeatSelection = () => {
           </div>
 
           {selectedSeats.length > 0 && (
-            <div className="payment-section text-center">
-              <button
-                className="button mt-3 px-4 py-2"
-                onClick={handleCustomPayment}
-              >
-                Pay ₹{selectedSeats.length * ticketPrice} Now
-              </button>
+            <div className="payment-section text-center mt-3">
+              <PayPalButton
+                totalAmount={selectedSeats.length * ticketPrice}
+                selectedSeats={selectedSeats}
+                onBookingSuccess={handleBookingSuccess}
+              />
             </div>
           )}
         </>
