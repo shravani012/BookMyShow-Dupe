@@ -96,7 +96,7 @@ const SeatSelection = () => {
         return;
       }
 
-      alert("⚠️ Invalid command. Try: 'Book 3 seats in B' or 'Assign A1 to Rahul'");
+      alert("⚠️ Please repeat");
     };
 
     recognition.onerror = (e) => {
