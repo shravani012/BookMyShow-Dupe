@@ -4,30 +4,30 @@ const PayPalButton = ({ totalAmount }) => {
   const paypalRef = useRef();
 
   useEffect(() => {
-    const addPayPalScript = () => {
-      const existingScript = document.querySelector("#paypal-sdk");
-      if (!existingScript) {
+    const loadPayPalScript = () => {
+      if (!document.getElementById("paypal-sdk")) {
         const script = document.createElement("script");
+        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
         script.id = "paypal-sdk";
-        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR&style.color=teal`;
         script.async = true;
-        script.onload = renderPayPalButtons;
+        script.onload = () => {
+          console.log("✅ PayPal SDK loaded");
+        };
         document.body.appendChild(script);
-      } else {
-        renderPayPalButtons();
       }
     };
 
-    const renderPayPalButtons = () => {
-      if (!window.paypal) return;
+    loadPayPalScript();
+  }, []);
 
-      window.paypal.Buttons({
-        style: {
-          layout: "vertical", // or 'horizontal'
-          color: "teal",       // ✅ change button color to teal
-          shape: "rect",       // 'pill' or 'rect'
-          label: "pay",        // text: 'paypal', 'pay', etc.
-        },
+  const handlePayNow = () => {
+    if (!window.paypal) {
+      alert("PayPal not loaded yet. Please try again.");
+      return;
+    }
+
+    window.paypal
+      .Buttons({
         createOrder: async () => {
           const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/create-order`, {
             method: "POST",
@@ -50,16 +50,27 @@ const PayPalButton = ({ totalAmount }) => {
           console.error("❌ PayPal Button Error:", err);
           alert("Payment failed. Please try again.");
         },
-      }).render(paypalRef.current);
-    };
-
-    addPayPalScript();
-  }, [totalAmount]);
+      })
+      .render(paypalRef.current);
+  };
 
   return (
     <div>
-      <h3>Complete Payment</h3>
       <div ref={paypalRef}></div>
+      <button
+        onClick={handlePayNow}
+        style={{
+          backgroundColor: "#00796B",
+          color: "white",
+          padding: "10px 20px",
+          fontSize: "16px",
+          borderRadius: "25px",
+          marginTop: "20px",
+          cursor: "pointer",
+        }}
+      >
+        Pay ₹{totalAmount} Now
+      </button>
     </div>
   );
 };
