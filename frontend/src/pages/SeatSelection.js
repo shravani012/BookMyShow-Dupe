@@ -6,6 +6,7 @@ const SeatSelection = () => {
   const [bookedSeats, setBookedSeats] = useState([]);
   const [yourSeats, setYourSeats] = useState([]);
   const [paymentDone, setPaymentDone] = useState(false);
+  const [seatOwners, setSeatOwners] = useState({}); // 👈 New state
   const ticketPrice = 150;
 
   useEffect(() => {
@@ -20,9 +21,17 @@ const SeatSelection = () => {
 
   const handleSeatClick = (seat) => {
     if (bookedSeats.includes(seat) || yourSeats.includes(seat) || paymentDone) return;
+
     setSelectedSeats((prev) =>
       prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
     );
+
+    // Remove owner if seat is deselected
+    if (selectedSeats.includes(seat)) {
+      const updatedOwners = { ...seatOwners };
+      delete updatedOwners[seat];
+      setSeatOwners(updatedOwners);
+    }
   };
 
   const handleCustomPayment = async () => {
@@ -95,6 +104,16 @@ const SeatSelection = () => {
           <p>
             Your Seats: <strong>{yourSeats.join(", ")}</strong>
           </p>
+          <p>
+            Split Among:{" "}
+            <ul>
+              {Object.entries(seatOwners).map(([seat, owner], idx) => (
+                <li key={idx}>
+                  {seat} - {owner || "You"}
+                </li>
+              ))}
+            </ul>
+          </p>
           <p>🎟 Enjoy the show! Details will be sent to your email.</p>
         </div>
       )}
@@ -113,10 +132,35 @@ const SeatSelection = () => {
             <p>Total Price: ₹{selectedSeats.length * ticketPrice}</p>
           </div>
 
+          {/* 👥 Split Booking Input Fields */}
+          {selectedSeats.length > 0 && (
+            <div className="split-payment mt-4">
+              <h5>Assign Friends to Seats</h5>
+              {selectedSeats.map((seat, idx) => (
+                <div key={idx} className="seat-assign-row">
+                  <label className="seat-label">{seat}</label>
+                  <input
+                    type="text"
+                    placeholder="Enter friend's name"
+                    value={seatOwners[seat] || ""}
+                    onChange={(e) =>
+                      setSeatOwners((prev) => ({
+                        ...prev,
+                        [seat]: e.target.value,
+                      }))
+                    }
+                    className="seat-owner-input"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Pay Button */}
           {selectedSeats.length > 0 && (
             <div className="payment-section text-center">
               <button
-                className="button mt-3 px-4 py-2"
+                className="button mt-4 px-4 py-2"
                 onClick={handleCustomPayment}
               >
                 Pay ₹{selectedSeats.length * ticketPrice} Now
