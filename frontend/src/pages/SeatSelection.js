@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import PayPalButton from "./PayPalButton"; // Adjust path if needed
+import React, { useState, useEffect } from "react";z
 import "./SeatSelection.css";
 
 const SeatSelection = () => {
@@ -26,10 +25,16 @@ const SeatSelection = () => {
     );
   };
 
-  const handleBookingSuccess = () => {
-    setYourSeats(selectedSeats);
-    setSelectedSeats([]);
-    setPaymentDone(true);
+  const handleCustomPayment = async () => {
+    try {
+      alert("✅ Booking successful!");
+      setYourSeats(selectedSeats);
+      setSelectedSeats([]);
+      setPaymentDone(true);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Payment failed. Please try again.");
+    }
   };
 
   const seatsLayout = "ABCDE".split("").map((row) =>
@@ -83,7 +88,7 @@ const SeatSelection = () => {
         ))}
       </div>
 
-      {/* ✅ After Booking Message */}
+      {/* ✅ After booking message */}
       {paymentDone && yourSeats.length > 0 && (
         <div className="confirmation-message">
           <h4 className="mt-4">✅ Booking Confirmed!</h4>
@@ -94,7 +99,7 @@ const SeatSelection = () => {
         </div>
       )}
 
-      {/* 💳 Price + Payment (Only Before Payment) */}
+      {/* ⬇️ Price details only before payment */}
       {!paymentDone && (
         <>
           <div className="price-details">
@@ -109,12 +114,13 @@ const SeatSelection = () => {
           </div>
 
           {selectedSeats.length > 0 && (
-            <div className="payment-section text-center mt-3">
-              <PayPalButton
-                totalAmount={selectedSeats.length * ticketPrice}
-                selectedSeats={selectedSeats}
-                onBookingSuccess={handleBookingSuccess}
-              />
+            <div className="payment-section text-center">
+              <button
+                className="button mt-3 px-4 py-2"
+                onClick={handleCustomPayment}
+              >
+                Pay ₹{selectedSeats.length * ticketPrice} Now
+              </button>
             </div>
           )}
         </>

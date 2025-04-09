@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from "react";
-const PayPalButton = ({ totalAmount, selectedSeats, onBookingSuccess }) => {
+
+const PayPalButton = ({ totalAmount }) => {
   const paypalRef = useRef();
-  const isRendered = useRef(false); // 👈 new flag
 
   useEffect(() => {
-    const loadPayPalScript = () => {
-      if (!document.getElementById("paypal-sdk")) {
+    const addPayPalScript = () => {
+      const existingScript = document.querySelector("#paypal-sdk");
+      if (!existingScript) {
         const script = document.createElement("script");
-        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
         script.id = "paypal-sdk";
+        script.src = `https://www.paypal.com/sdk/js?client-id=${process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID}&currency=INR`;
+        console.log("PayPal Client ID:", process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID);
         script.async = true;
         script.onload = renderPayPalButtons;
         document.body.appendChild(script);
@@ -18,8 +20,7 @@ const PayPalButton = ({ totalAmount, selectedSeats, onBookingSuccess }) => {
     };
 
     const renderPayPalButtons = () => {
-      if (isRendered.current || !window.paypal) return; // 👈 prevent multiple renders
-      isRendered.current = true;
+      if (!window.paypal) return;
 
       window.paypal.Buttons({
         createOrder: async () => {
@@ -32,36 +33,30 @@ const PayPalButton = ({ totalAmount, selectedSeats, onBookingSuccess }) => {
           return data.orderId;
         },
         onApprove: async (data) => {
-          await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/capture-order`, {
+          const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/payment/capture-order`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ orderId: data.orderID }),
           });
-
-          const bookingRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book-seats`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ seats: selectedSeats }),
-          });
-
-          const bookingData = await bookingRes.json();
-          if (bookingData.success) {
-            onBookingSuccess();
-          } else {
-            alert("⚠️ Booking failed after payment. Please contact support.");
-          }
+          const result = await res.json();
+          alert("✅ Payment successful!");
         },
         onError: (err) => {
-          console.error("❌ PayPal Error:", err);
+          console.error("❌ PayPal Button Error:", err);
           alert("Payment failed. Please try again.");
         },
       }).render(paypalRef.current);
     };
 
-    loadPayPalScript();
-  }, [totalAmount, selectedSeats]);
+    addPayPalScript();
+  }, [totalAmount]);
 
-  return <div ref={paypalRef}></div>;
+  return (
+    <div>
+      <h3>Complete Payment</h3>
+      <div ref={paypalRef}></div>
+    </div>
+  );
 };
 
 export default PayPalButton;
